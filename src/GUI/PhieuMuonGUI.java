@@ -50,7 +50,7 @@ public class PhieuMuonGUI extends JPanel {
 	private JPanel panel_title;
 
 	private JComboBox combobox_search;
-	String[] searchs = { "Tìm Theo Mã Phiếu Mượn", "Tìm Theo Tên Nhân Viên", "Tìm Theo Tên Độc Giả"};
+	String[] searchs = { "Tìm Theo Mã Phiếu Mượn", "Tìm Theo Tên Nhân Viên", "Tìm Theo Tên Độc Giả" };
 	private JTextField txt_Search;
 	private JButton btn_Searchsubmit;
 	private JPanel panel_Search;
@@ -107,7 +107,8 @@ public class PhieuMuonGUI extends JPanel {
 		model.setRowCount(0); // Xóa tất cả dữ liệu cũ trong JTable
 		for (PhieuMuon pm : data) {
 			// Đảm bảo dữ liệu được thêm vào theo đúng thứ tự của các cột trong model
-			model.addRow(new Object[] { pm.getMaPhieuMuon(), pm.getNgayMuon(), pm.getMaNhanVien().getHoTen(), pm.getDocGia().getHoTen(),
+			model.addRow(new Object[] { pm.getMaPhieuMuon(), pm.getNgayMuon(), pm.getMaNhanVien().getHoTen(),
+					pm.getDocGia().getHoTen(),
 					pm.getNgayTra(), pm.getSoLuong(), pm.getTrangThai()
 
 			});
@@ -119,7 +120,8 @@ public class PhieuMuonGUI extends JPanel {
 		model.setRowCount(0); // Xóa tất cả dữ liệu cũ trong JTable
 		for (CTPhieuMuon ctpm : data) {
 			// Đảm bảo dữ liệu được thêm vào theo đúng thứ tự của các cột trong model
-			model.addRow(new Object[] { ctpm.getPhieuMuon(), ctpm.getSach().get_MaSach(),ctpm.getSach().get_TenSach(), ctpm.getSoLuong(),
+			model.addRow(new Object[] { ctpm.getPhieuMuon(), ctpm.getSach().get_MaSach(), ctpm.getSach().get_TenSach(),
+					ctpm.getSoLuong(),
 					// tpm.getThanhTien()
 
 			});
@@ -157,7 +159,7 @@ public class PhieuMuonGUI extends JPanel {
 		txt_Search = new JTextField();
 		txt_Search.setPreferredSize(new Dimension(600, 40));
 		txt_Search.setFont(new Font("Arial", BOLD, 15));
-		ImageIcon icon = new ImageIcon("src/img/search-icon.png");
+		ImageIcon icon = new ImageIcon(getClass().getResource("/img/search-icon.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImage = icon.getImage();
 		// Thay đổi kích thước của hình ảnh
@@ -183,59 +185,62 @@ public class PhieuMuonGUI extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				int selectedIndex = combobox_search.getSelectedIndex();
 				switch (selectedIndex) {
-				case 0: {
-					// Tìm theo mã Phiếu Mượn
-					String userInput = txt_Search.getText();
-					if (userInput.isEmpty())
-						JOptionPane.showMessageDialog(null, "Hãy nhập mã phiếu mượn mà bạn muốn tìm kiếm !", "Cảnh báo",
-								JOptionPane.WARNING_MESSAGE);
-					else {
-						if (KiemTraMa5(userInput) == true) {
-							ArrayList<PhieuMuon> objtrung = phieumuonbus.TimKiemTheoMaPhieuMuon(userInput);
+					case 0: {
+						// Tìm theo mã Phiếu Mượn
+						String userInput = txt_Search.getText();
+						if (userInput.isEmpty())
+							JOptionPane.showMessageDialog(null, "Hãy nhập mã phiếu mượn mà bạn muốn tìm kiếm !",
+									"Cảnh báo",
+									JOptionPane.WARNING_MESSAGE);
+						else {
+							if (KiemTraMa5(userInput) == true) {
+								ArrayList<PhieuMuon> objtrung = phieumuonbus.TimKiemTheoMaPhieuMuon(userInput);
+								// Danh sách rỗng
+								if (objtrung.isEmpty() == true)
+									JOptionPane.showMessageDialog(null,
+											"Không tìm thấy phiếu mượn nào có mã giống với mã mà bạn đang tìm kiếm.");
+								else {
+									ThemDataVaoJTablePhieuMuon(model, objtrung);
+								}
+								txt_Search.setText("");
+
+							} else {
+								JOptionPane.showMessageDialog(null, "Mã bạn nhập không đúng !", "Cảnh báo",
+										JOptionPane.WARNING_MESSAGE);
+							}
+						}
+						break;
+					}
+
+					case 1: {
+						// TÌM THEO MÃ NHÂN VIÊN
+						String userInput = txt_Search.getText();
+						if (userInput.isEmpty())
+							JOptionPane.showMessageDialog(null, "Hãy nhập tên nhân viên mà bạn muốn tìm kiếm !",
+									"Cảnh báo",
+									JOptionPane.WARNING_MESSAGE);
+						else {
+							ArrayList<PhieuMuon> objtrung = phieumuonbus.TimKiemTheoMaNhanVien(userInput);
 							// Danh sách rỗng
 							if (objtrung.isEmpty() == true)
 								JOptionPane.showMessageDialog(null,
-										"Không tìm thấy phiếu mượn nào có mã giống với mã mà bạn đang tìm kiếm.");
+										"Không tìm thấy nhân viên nào có mã giống với tên nhân viên mà bạn đang tìm kiếm.");
 							else {
 								ThemDataVaoJTablePhieuMuon(model, objtrung);
 							}
 							txt_Search.setText("");
+						}
+						break;
+					}
 
-						} else {
-							JOptionPane.showMessageDialog(null, "Mã bạn nhập không đúng !", "Cảnh báo",
+					case 2: {
+						// TÌM THEO MÃ ĐỘC GIẢ
+						String userInput = txt_Search.getText();
+						if (userInput.isEmpty())
+							JOptionPane.showMessageDialog(null, "Hãy nhập tên độc giả mà bạn muốn tìm kiếm !",
+									"Cảnh báo",
 									JOptionPane.WARNING_MESSAGE);
-						}
-					}
-					break;
-				}
-
-				case 1: {
-					// TÌM THEO MÃ NHÂN VIÊN
-					String userInput = txt_Search.getText();
-					if (userInput.isEmpty())
-						JOptionPane.showMessageDialog(null, "Hãy nhập tên nhân viên mà bạn muốn tìm kiếm !", "Cảnh báo",
-								JOptionPane.WARNING_MESSAGE);
-					else {
-						ArrayList<PhieuMuon> objtrung = phieumuonbus.TimKiemTheoMaNhanVien(userInput);
-						// Danh sách rỗng
-						if (objtrung.isEmpty() == true)
-							JOptionPane.showMessageDialog(null,
-									"Không tìm thấy nhân viên nào có mã giống với tên nhân viên mà bạn đang tìm kiếm.");
 						else {
-							ThemDataVaoJTablePhieuMuon(model, objtrung);
-						}
-						txt_Search.setText("");
-					}
-					break;
-				}
-
-				case 2: {
-					// TÌM THEO MÃ ĐỘC GIẢ
-					String userInput = txt_Search.getText();
-					if (userInput.isEmpty())
-						JOptionPane.showMessageDialog(null, "Hãy nhập tên độc giả mà bạn muốn tìm kiếm !", "Cảnh báo",
-								JOptionPane.WARNING_MESSAGE);
-					else {
 
 							ArrayList<PhieuMuon> objtrung = phieumuonbus.TimKiemTheoMaDocGia(userInput);
 							// Danh sách rỗng
@@ -247,10 +252,10 @@ public class PhieuMuonGUI extends JPanel {
 							}
 							txt_Search.setText("");
 
-					}
-					break;
+						}
+						break;
 
-				}
+					}
 
 				}
 			}
@@ -261,7 +266,7 @@ public class PhieuMuonGUI extends JPanel {
 		panel_nav.setBackground(Color.WHITE);
 		panel_nav.setPreferredSize(new Dimension(1160, 70));
 
-		ImageIcon iconhome = new ImageIcon("src/img/home-icon.png");
+		ImageIcon iconhome = new ImageIcon(getClass().getResource("/img/home-icon.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImagehome = iconhome.getImage();
 		// Thay đổi kích thước của hình ảnh
@@ -273,7 +278,7 @@ public class PhieuMuonGUI extends JPanel {
 		home.setFont(new Font("Arial", BOLD, 15));
 		home.setPreferredSize(new Dimension(150, 60));
 
-		ImageIcon iconinsert = new ImageIcon("src/img/blue-plus-icon.png");
+		ImageIcon iconinsert = new ImageIcon(getClass().getResource("/img/blue-plus-icon.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImageinsert = iconinsert.getImage();
 		// Thay đổi kích thước của hình ảnh
@@ -285,7 +290,7 @@ public class PhieuMuonGUI extends JPanel {
 		insert.setFont(new Font("Arial", BOLD, 15));
 		insert.setPreferredSize(new Dimension(150, 60));
 
-		ImageIcon icondelete = new ImageIcon("src/img/blue-cross-icon.png");
+		ImageIcon icondelete = new ImageIcon(getClass().getResource("/img/blue-cross-icon.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImagedelete = icondelete.getImage();
 		// Thay đổi kích thước của hình ảnh
@@ -457,41 +462,41 @@ public class PhieuMuonGUI extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				int selectedOption = combobox.getSelectedIndex();
 				switch (selectedOption) {
-				case 0: {
-					panel_thongke.setVisible(false);
-					break;
-				}
-				case 1: {
-					panel_thongke.setVisible(true);
-					panel_date.setVisible(true);
-					panel_date1.setVisible(false);
-					panel_date2.setVisible(false);
-					panel_date3.setVisible(true);
-					select_thongke = 1;
-					break;
+					case 0: {
+						panel_thongke.setVisible(false);
+						break;
+					}
+					case 1: {
+						panel_thongke.setVisible(true);
+						panel_date.setVisible(true);
+						panel_date1.setVisible(false);
+						panel_date2.setVisible(false);
+						panel_date3.setVisible(true);
+						select_thongke = 1;
+						break;
 
-				}
+					}
 
-				case 2: {
-					panel_thongke.setVisible(true);
-					panel_date.setVisible(false);
-					panel_date1.setVisible(true);
-					panel_date2.setVisible(false);
-					panel_date3.setVisible(true);
-					select_thongke = 2;
-					break;
+					case 2: {
+						panel_thongke.setVisible(true);
+						panel_date.setVisible(false);
+						panel_date1.setVisible(true);
+						panel_date2.setVisible(false);
+						panel_date3.setVisible(true);
+						select_thongke = 2;
+						break;
 
-				}
+					}
 
-				case 3: {
-					panel_thongke.setVisible(true);
-					panel_date.setVisible(false);
-					panel_date1.setVisible(false);
-					panel_date2.setVisible(true);
-					panel_date3.setVisible(true);
-					select_thongke = 3;
-					break;
-				}
+					case 3: {
+						panel_thongke.setVisible(true);
+						panel_date.setVisible(false);
+						panel_date1.setVisible(false);
+						panel_date2.setVisible(true);
+						panel_date3.setVisible(true);
+						select_thongke = 3;
+						break;
+					}
 
 				}
 
@@ -529,13 +534,14 @@ public class PhieuMuonGUI extends JPanel {
 		label_start_date = new JLabel("Nhập Ngày Bắt Đầu:");
 		label_start_date.setFont(new Font("Arial", Font.BOLD, 20));
 
-// Tạo một UtilDateModel cho start_date và end_date
+		// Tạo một UtilDateModel cho start_date và end_date
 		UtilDateModel startDateModel = new UtilDateModel();
 		JDatePanelImpl datePanel1 = new JDatePanelImpl(startDateModel, p);
 		UtilDateModel endDateModel = new UtilDateModel();
 		JDatePanelImpl datePanel2 = new JDatePanelImpl(endDateModel, p);
 
-// Tạo JDatePickerImpl cho start_date và end_date, sử dụng các UtilDateModel riêng biệt
+		// Tạo JDatePickerImpl cho start_date và end_date, sử dụng các UtilDateModel
+		// riêng biệt
 		start_date = new JDatePickerImpl(datePanel1, new DateLabelFormatter());
 		end_date = new JDatePickerImpl(datePanel2, new DateLabelFormatter());
 
@@ -568,13 +574,17 @@ public class PhieuMuonGUI extends JPanel {
 		panel_date2.add(label_year);
 		panel_date2.add(year);
 
-		ImageIcon icontk = new ImageIcon("src/img/Chart-Business-icon.png");
+		ImageIcon icontk = new ImageIcon("/img/Chart-Business-icon.png");
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImagetk = icontk.getImage();
 		// Thay đổi kích thước của hình ảnh
 		Image scaledImagetk = originalImagetk.getScaledInstance(35, 35, Image.SCALE_SMOOTH);
 		// Tạo một ImageIcon từ hình ảnh đã thay đổi kích thước
 		ImageIcon scaledIcontk = new ImageIcon(scaledImagetk);
+		btn_themsachmoi = new JButton("Thêm Sách Mới", scaledIconinsert);
+		btn_themsachmoi.setBackground(Color.PINK);
+		btn_themsachmoi.setFont(new Font("Arial", BOLD, 15));
+		btn_themsachmoi.setPreferredSize(new Dimension(200, 60));
 		btn_thongke = new JButton("Thống kê", scaledIcontk);
 		btn_thongke.setPreferredSize(new Dimension(200, 60));
 		btn_thongke.setForeground(Color.WHITE);
@@ -618,75 +628,79 @@ public class PhieuMuonGUI extends JPanel {
 		// Nhấn Nút Thống Kê
 		btn_thongke.addActionListener(new ActionListener() {
 			@Override
-			 public void actionPerformed(ActionEvent e) {
-	              switch(select_thongke){
-		 case 1:{
-             // Lấy ngày được chọn từ JDatePickerImpl
-             java.util.Date selectedDate = (java.util.Date) date.getModel().getValue();
-             // Kiểm tra xem người dùng đã chọn ngày chưa
-             if (selectedDate != null) {
-                 // Chuyển đổi từ java.util.Date sang java.sql.Date
-                 java.sql.Date selectedDateSql = new java.sql.Date(selectedDate.getTime());
+			public void actionPerformed(ActionEvent e) {
+				switch (select_thongke) {
+					case 1: {
+						// Lấy ngày được chọn từ JDatePickerImpl
+						java.util.Date selectedDate = (java.util.Date) date.getModel().getValue();
+						// Kiểm tra xem người dùng đã chọn ngày chưa
+						if (selectedDate != null) {
+							// Chuyển đổi từ java.util.Date sang java.sql.Date
+							java.sql.Date selectedDateSql = new java.sql.Date(selectedDate.getTime());
 
-               ArrayList<PhieuMuon>obj=new ArrayList<>();
-               obj=phieumuondao.ThongKeTheoNgay(selectedDateSql);
-               ThemDataVaoJTablePhieuMuon(model,obj);
-               select_thongke=0;
-               panel_thongke.setVisible(false);
-               break;
-             } else {
-                 // Nếu người dùng chưa chọn ngày, hiển thị thông báo nhắc nhở
-                JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày bạn muốn thống kê!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
-             }
-           
-       }
-       case 2:{
-             // Kiểm tra xem người dùng đã nhập đủ start_date và end_date chưa
-             if (start_date.getModel().getValue() == null || end_date.getModel().getValue() == null) {
-                 JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ ngày bắt đầu và ngày kết thúc.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                 return;
-             }
+							ArrayList<PhieuMuon> obj = new ArrayList<>();
+							obj = phieumuondao.ThongKeTheoNgay(selectedDateSql);
+							ThemDataVaoJTablePhieuMuon(model, obj);
+							select_thongke = 0;
+							panel_thongke.setVisible(false);
+							break;
+						} else {
+							// Nếu người dùng chưa chọn ngày, hiển thị thông báo nhắc nhở
+							JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày bạn muốn thống kê!", "Cảnh báo",
+									JOptionPane.WARNING_MESSAGE);
+						}
 
-             // Lấy giá trị ngày bắt đầu và ngày kết thúc từ JDatePickerImpl
-             java.util.Date startDate = (java.util.Date) start_date.getModel().getValue();
-             java.util.Date endDate = (java.util.Date) end_date.getModel().getValue();
+					}
+					case 2: {
+						// Kiểm tra xem người dùng đã nhập đủ start_date và end_date chưa
+						if (start_date.getModel().getValue() == null || end_date.getModel().getValue() == null) {
+							JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ ngày bắt đầu và ngày kết thúc.",
+									"Lỗi", JOptionPane.ERROR_MESSAGE);
+							return;
+						}
 
-             // Kiểm tra xem start_date có lớn hơn hoặc bằng end_date không
-             if (startDate.compareTo(endDate) >= 0) {
-                 JOptionPane.showMessageDialog(null, "Ngày bắt đầu phải nhỏ hơn ngày kết thúc. Vui lòng nhập lại.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                 return;
-             }
-             java.sql.Date startDateSql = new java.sql.Date( startDate.getTime());
-             java.sql.Date endDateSql = new java.sql.Date(endDate.getTime());
-             ArrayList<PhieuMuon>obj=new ArrayList<>();
-            obj=phieumuondao.ThongKeTheoKhoangThoiGian(startDateSql, endDateSql);
-            ThemDataVaoJTablePhieuMuon(model,obj);
-            select_thongke=0;
-            panel_thongke.setVisible(false);
-              break;
-       }
-       case 3:{
-           int select_month= Month.getSelectedIndex();
-           int year_selected=(int) year.getValue();
-           int month=select_month+1;
-           ArrayList<PhieuMuon>obj=new ArrayList<>();
-           obj=phieumuondao.ThongKeTheoNam_Thang(year_selected, month);
-           ThemDataVaoJTablePhieuMuon(model,obj);
-           select_thongke=0;
-            panel_thongke.setVisible(false);
+						// Lấy giá trị ngày bắt đầu và ngày kết thúc từ JDatePickerImpl
+						java.util.Date startDate = (java.util.Date) start_date.getModel().getValue();
+						java.util.Date endDate = (java.util.Date) end_date.getModel().getValue();
 
-              break;
-       }
-       
-   }
-}
-});
+						// Kiểm tra xem start_date có lớn hơn hoặc bằng end_date không
+						if (startDate.compareTo(endDate) >= 0) {
+							JOptionPane.showMessageDialog(null,
+									"Ngày bắt đầu phải nhỏ hơn ngày kết thúc. Vui lòng nhập lại.", "Lỗi",
+									JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+						java.sql.Date startDateSql = new java.sql.Date(startDate.getTime());
+						java.sql.Date endDateSql = new java.sql.Date(endDate.getTime());
+						ArrayList<PhieuMuon> obj = new ArrayList<>();
+						obj = phieumuondao.ThongKeTheoKhoangThoiGian(startDateSql, endDateSql);
+						ThemDataVaoJTablePhieuMuon(model, obj);
+						select_thongke = 0;
+						panel_thongke.setVisible(false);
+						break;
+					}
+					case 3: {
+						int select_month = Month.getSelectedIndex();
+						int year_selected = (int) year.getValue();
+						int month = select_month + 1;
+						ArrayList<PhieuMuon> obj = new ArrayList<>();
+						obj = phieumuondao.ThongKeTheoNam_Thang(year_selected, month);
+						ThemDataVaoJTablePhieuMuon(model, obj);
+						select_thongke = 0;
+						panel_thongke.setVisible(false);
+
+						break;
+					}
+
+				}
+			}
+		});
 
 		panel_thongke.add(panel_date);
 		panel_thongke.add(panel_date1);
 		panel_thongke.add(panel_date2);
 		panel_thongke.add(panel_date3);
-		this.setLayout(new FlowLayout(0,0,0));
+		this.setLayout(new FlowLayout(0, 0, 0));
 		this.setBackground(Color.WHITE);
 		this.add(panel_title);
 		this.add(panel_Search);
@@ -709,8 +723,7 @@ public class PhieuMuonGUI extends JPanel {
 	private JPanel panel_pmhap_ht2;
 	private JLabel label_ngaymuon_ht;
 	private JLabel ngaymuon_ht;
-	
-	
+
 	private JPanel panel_pmhap_ht3;
 	private JLabel label_ngaytra_ht;
 	private JLabel ngaytra_ht;
@@ -730,7 +743,7 @@ public class PhieuMuonGUI extends JPanel {
 	private JPanel panel_pmhap_ht7;
 	private JLabel label_tennv_ht;
 	private JLabel tennv_ht;
-	
+
 	private JPanel panel_table_ctpm_ht;
 	private JTable table_ctpm_ht;
 	private DefaultTableModel modelctpm;
@@ -759,7 +772,6 @@ public class PhieuMuonGUI extends JPanel {
 		panel_pmhap_ht1.add(mapmhap_ht);
 		panel_pmhap_ht1.setBackground(Color.WHITE);
 
-		
 		label_ngaymuon_ht = new JLabel("- Ngày Mượn :");
 		label_ngaymuon_ht.setFont(new Font("Arial", BOLD, 18));
 		label_ngaymuon_ht.setForeground(Color.MAGENTA);
@@ -810,7 +822,6 @@ public class PhieuMuonGUI extends JPanel {
 		panel_pmhap_ht4.add(madg_ht);
 		panel_pmhap_ht4.setBackground(Color.WHITE);
 
-		
 		label_tendg_ht = new JLabel("- Tên Độc Giả :");
 		label_tendg_ht.setFont(new Font("Arial", BOLD, 18));
 		label_tendg_ht.setForeground(Color.MAGENTA);
@@ -908,7 +919,7 @@ public class PhieuMuonGUI extends JPanel {
 	private JPanel panel_pmhap_manv;
 	private JLabel label_manv;
 	private JComboBox manv;
-	
+
 	private JPanel panel_pmhap_madg;
 	private JLabel label_madg;
 	private JComboBox madg;
@@ -1006,7 +1017,6 @@ public class PhieuMuonGUI extends JPanel {
 		// Format thời gian theo định dạng cụ thể, ở đây mình chọn định dạng
 		// 'yyyy-MM-dd'
 
-
 		// Cập nhật cơ sở dữ liệu với ngày hiện tại
 		// updateDatabase(dateString);
 		label_ngmuon_t = new JLabel("- Ngày Mượn :");
@@ -1043,7 +1053,7 @@ public class PhieuMuonGUI extends JPanel {
 
 		label_madg = new JLabel("- Mã Độc Giả:");
 		label_madg.setFont(new Font("Arial", BOLD, 18));
-		madg =new JComboBox(TaoModelDocGia(phieumuonbus.getList_docgia()));
+		madg = new JComboBox(TaoModelDocGia(phieumuonbus.getList_docgia()));
 		madg.setPreferredSize(new Dimension(100, 30));
 		madg.setFont(new Font("Arial", BOLD, 18));
 		panel_pmhap_madg = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -1062,10 +1072,8 @@ public class PhieuMuonGUI extends JPanel {
 		panel_pmhap_tendg.setBackground(Color.WHITE);
 		panel_pmhap_tendg.setPreferredSize(new Dimension(540, 50));
 		// Tính ngày trả là 7 ngày sau khi nhập
-	
-		// Định dạng ngày trả theo định dạng mong muốn
 
-	
+		// Định dạng ngày trả theo định dạng mong muốn
 
 		// Tạo label và hiển thị ngày trả
 		label_nxb_t = new JLabel("- Ngày Trả :");
@@ -1080,12 +1088,7 @@ public class PhieuMuonGUI extends JPanel {
 		panel_pmhap_t3.setBackground(Color.WHITE);
 		panel_pmhap_t3.setPreferredSize(new Dimension(540, 50));
 
-		
-		 
-		       
-		 
-
-		ImageIcon iconinsert = new ImageIcon("src/img/blue-plus-icon.png");
+		ImageIcon iconinsert = new ImageIcon(getClass().getResource("/img/blue-plus-icon.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImageinsert = iconinsert.getImage();
 		// Thay đổi kích thước của hình ảnh
@@ -1099,7 +1102,6 @@ public class PhieuMuonGUI extends JPanel {
 		panel_ctpm_nav.setBackground(Color.WHITE);
 		panel_ctpm_nav.setPreferredSize(new Dimension(1160, 70));
 
-		
 		// Khi ta muốn đóng JFRAME THÊM SÁCH
 		btn_themsachcu = new JButton("Thêm Sách", scaledIconinsert);
 		btn_themsachcu.setBackground(Color.PINK);
@@ -1111,23 +1113,25 @@ public class PhieuMuonGUI extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String[] modelll = new String[phieumuonbus.get_ListSach().size()];
-				 int a=0;
-				        for(SachCT s : phieumuonbus.get_ListSach()) {
-				            list_sachincombobox.add(s);
-				            modelll[a]= s.get_TenSach();
-			                   a++;
-				        }
-				        
-				        for (int i=0; i<a; i++){
-				              String item=modelll[i];
-				              sach_t.addItem(item);
-				          }
+				int a = 0;
+				for (SachCT s : phieumuonbus.get_ListSach()) {
+					list_sachincombobox.add(s);
+					modelll[a] = s.get_TenSach();
+					a++;
+				}
+
+				for (int i = 0; i < a; i++) {
+					String item = modelll[i];
+					sach_t.addItem(item);
+				}
 				panel_ctpm_detail_t.setVisible(true);
 				btn_thempmhap.setVisible(false);
-				btn_themsachmoi.setVisible(false);
+				if (btn_themsachmoi != null) {
+					btn_themsachmoi.setVisible(false);
+				}
 			}
 		});
-//		panel_ctpm_nav.add(btn_themsachmoi);
+		// panel_ctpm_nav.add(btn_themsachmoi);
 		panel_ctpm_nav.add(btn_themsachcu);
 
 		// Thêm Chi tiết Tiết Phiếu Mượn
@@ -1212,15 +1216,15 @@ public class PhieuMuonGUI extends JPanel {
 						return;
 					}
 					int solgnew = list_sachincombobox.get(selectedIndex).get_SoLuong() - Integer.parseInt(txt_solg);
-					if(solgnew <= 0) {
-						JOptionPane.showMessageDialog(null, "Số lượng sách không đủ để mượn !", "Vui lòng giảm số lượng sách mượn hoặc chọn sách khác",
+					if (solgnew <= 0) {
+						JOptionPane.showMessageDialog(null, "Số lượng sách không đủ để mượn !",
+								"Vui lòng giảm số lượng sách mượn hoặc chọn sách khác",
 								JOptionPane.WARNING_MESSAGE);
 						return;
 					}
-					
+
 					objsachold = list_sachincombobox.get(selectedIndex);
 					objsachold.set_SoLuong(solgnew);
-					
 
 					objctpmnew.setPhieuMuon(objpmhapmoi.getMaPhieuMuon());
 					objctpmnew.setSoLuong(Integer.parseInt(txt_solg));
@@ -1246,7 +1250,6 @@ public class PhieuMuonGUI extends JPanel {
 
 			}
 
-			
 		});
 
 		JPanel panel_ctpmdetail_t5 = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -1262,7 +1265,7 @@ public class PhieuMuonGUI extends JPanel {
 		panel_ctpm_detail_t.setVisible(false);
 
 		// Table
-		String columnNames[] = { "Mã Phiếu", "Mã Sách",  "Tên Sách","Số Lượng" };
+		String columnNames[] = { "Mã Phiếu", "Mã Sách", "Tên Sách", "Số Lượng" };
 		modelthemctpm = new DefaultTableModel(columnNames, 0);
 		table_ctpm_t = new JTable(modelthemctpm);
 		TableColumnModel columnModel = table_ctpm_t.getColumnModel();
@@ -1303,7 +1306,7 @@ public class PhieuMuonGUI extends JPanel {
 		panel_thempmhap.add(btn_thempmhap);
 
 		manv.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String ma = manv.getSelectedItem().toString();
@@ -1330,7 +1333,7 @@ public class PhieuMuonGUI extends JPanel {
 			}
 		});
 		madg.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String MA = madg.getSelectedItem().toString();
@@ -1355,7 +1358,7 @@ public class PhieuMuonGUI extends JPanel {
 					return;
 				}
 			}
-			
+
 		});
 		btn_thempmhap.addActionListener(new ActionListener() {
 			@Override
@@ -1410,24 +1413,28 @@ public class PhieuMuonGUI extends JPanel {
 
 				objpmhapmoi.setListCTiet(list_obj);
 				int ThemMotPhieuMuon = phieumuondao.ThemMotPhieuMuon(objpmhapmoi);
+				if (ThemMotPhieuMuon > 0) {
+					phieumuonbus.ThemPhieuMuonMoi(objpmhapmoi);
+					// Nhớ thay đổi bảng
 
-				phieumuonbus.ThemPhieuMuonMoi(objpmhapmoi);
-				// Nhớ thay đổi bảng
-
-				phieumuondao.ThemMotChiTietPhieuMuon(list_obj);
-				try {
-					phieumuondao.Edit_NhieuSach(list_sachold);
-				} catch (SQLException ex) {
-					Logger.getLogger(PhieuMuonGUI.class.getName()).log(Level.SEVERE, null, ex);
+					phieumuondao.ThemMotChiTietPhieuMuon(list_obj);
+					try {
+						phieumuondao.Edit_NhieuSach(list_sachold);
+					} catch (SQLException ex) {
+						Logger.getLogger(PhieuMuonGUI.class.getName()).log(Level.SEVERE, null, ex);
+					}
+					try {
+						phieumuondao.Insert_NhieuSach(list_sachnew);
+					} catch (SQLException ex) {
+						Logger.getLogger(PhieuMuonGUI.class.getName()).log(Level.SEVERE, null, ex);
+					}
+					phieumuonbus.set_ListSach(phieumuondao.getListSACH());
+					ThemDataVaoJTablePhieuMuon(model, phieumuonbus.get_ListPhieuMuon());
+					frame_pmhap.setVisible(false);
+				} else {
+					JOptionPane.showMessageDialog(null, "Không thể thêm phiếu mượn mới!", "Cảnh báo",
+							JOptionPane.WARNING_MESSAGE);
 				}
-				try {
-					phieumuondao.Insert_NhieuSach(list_sachnew);
-				} catch (SQLException ex) {
-					Logger.getLogger(PhieuMuonGUI.class.getName()).log(Level.SEVERE, null, ex);
-				}
-				phieumuonbus.set_ListSach(phieumuondao.getListSACH());
-				ThemDataVaoJTablePhieuMuon(model, phieumuonbus.get_ListPhieuMuon());
-				frame_pmhap.setVisible(false);
 
 			}
 
@@ -1456,8 +1463,6 @@ public class PhieuMuonGUI extends JPanel {
 
 	}
 
-	
-
 	public String[] TaoModelLoaiSach(ArrayList<LoaiSach> obj) {
 		String[] modelll = new String[obj.size()]; // Khởi tạo mảng với độ dài là số lượng phần tử trong danh sách
 		for (int i = 0; i < obj.size(); i++) {
@@ -1465,6 +1470,7 @@ public class PhieuMuonGUI extends JPanel {
 		}
 		return modelll;
 	}
+
 	public String[] TaoModelDocGia(ArrayList<DocGia> obj) {
 		String[] modelll = new String[obj.size()]; // Khởi tạo mảng với độ dài là số lượng phần tử trong danh sách
 		for (int i = 0; i < obj.size(); i++) {
@@ -1472,6 +1478,7 @@ public class PhieuMuonGUI extends JPanel {
 		}
 		return modelll;
 	}
+
 	public String[] TaoModelNhanVien(ArrayList<NhanVien> obj) {
 		String[] modelll = new String[obj.size()]; // Khởi tạo mảng với độ dài là số lượng phần tử trong danh sách
 		for (int i = 0; i < obj.size(); i++) {
@@ -1479,6 +1486,7 @@ public class PhieuMuonGUI extends JPanel {
 		}
 		return modelll;
 	}
+
 	public String[] TaoModelTacGia(ArrayList<TacGia> obj) {
 		String[] modelll = new String[obj.size()]; // Khởi tạo mảng với độ dài là số lượng phần tử trong danh sách
 		for (int i = 0; i < obj.size(); i++) {
@@ -1495,7 +1503,7 @@ public class PhieuMuonGUI extends JPanel {
 		return modelll;
 	}
 
-//Thêm dữ liệu vô jtable ctpm
+	// Thêm dữ liệu vô jtable ctpm
 	public void ThemMotDongVoJTableCTPMuon(CTPhieuMuon obj) {
 		// String columnNames[]={"Mã Phiếu","Mã Sách","Tên Sách","Số Lượng","Thành
 		// Tiền"};
@@ -1506,7 +1514,4 @@ public class PhieuMuonGUI extends JPanel {
 
 	}
 
-
-
-	
 }

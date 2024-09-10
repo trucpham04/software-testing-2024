@@ -138,7 +138,7 @@ public class ThongKeView extends JPanel implements ActionListener {
 		panel_title.add(label_title);
 
 		// TÌM KIẾM
-		ImageIcon icon = new ImageIcon("src/img/search-icon.png");
+		ImageIcon icon = new ImageIcon(getClass().getResource("/img/search-icon.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImage = icon.getImage();
 		// Thay đổi kích thước của hình ảnh
@@ -152,7 +152,7 @@ public class ThongKeView extends JPanel implements ActionListener {
 		panel_nav.setBackground(Color.WHITE);
 		panel_nav.setPreferredSize(new Dimension(1160, 70));
 
-		ImageIcon iconhome = new ImageIcon("src/img/home-icon.png");
+		ImageIcon iconhome = new ImageIcon(getClass().getResource("/img/home-icon.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImagehome = iconhome.getImage();
 		// Thay đổi kích thước của hình ảnh
@@ -164,7 +164,7 @@ public class ThongKeView extends JPanel implements ActionListener {
 		home.setFont(new Font("Arial", BOLD, 15));
 		home.setPreferredSize(new Dimension(150, 60));
 
-		ImageIcon iconinsert = new ImageIcon("src/img/blue-plus-icon.png");
+		ImageIcon iconinsert = new ImageIcon(getClass().getResource("/img/blue-plus-icon.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImageinsert = iconinsert.getImage();
 		// Thay đổi kích thước của hình ảnh
@@ -176,7 +176,7 @@ public class ThongKeView extends JPanel implements ActionListener {
 		insert.setFont(new Font("Arial", BOLD, 15));
 		insert.setPreferredSize(new Dimension(150, 60));
 
-		ImageIcon icondelete = new ImageIcon("src/img/blue-cross-icon.png");
+		ImageIcon icondelete = new ImageIcon(getClass().getResource("/img/blue-cross-icon.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImagedelete = icondelete.getImage();
 		// Thay đổi kích thước của hình ảnh

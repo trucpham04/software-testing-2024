@@ -659,7 +659,7 @@ public class PhieuTraDAO {
 			DataConnection conn = new DataConnection();
 			java.sql.Connection connectdata = conn.getConnection();
 
-			String Query = "SELECT pm.MA_PMUON AS MAPMUON, pm.MG_MUON AS NGMUON, pm.MA_NV AS MANV, pm.MA_DG AS MADG, pm.NG_TRA AS NGTRA, pm.SO_LUONG AS SOLUONG, pm.TRANG_THAI AS TRANGTHAI, "
+			String Query = "SELECT pm.MA_PMUON AS MAPMUON, pm.NG_MUON AS NGMUON, pm.MA_NV AS MANV, pm.MA_DG AS MADG, pm.NG_TRA AS NGTRA, pm.SO_LUONG AS SOLUONG, pm.TRANG_THAI AS TRANGTHAI, "
 					+ "dg.HO_TEN AS HOTEN, nv.HO_TEN AS TENNV " + "FROM PHIEU_MUON AS pm "
 					+ "JOIN NHAN_VIEN AS nv ON pm.MA_NV = nv.MA_NV " + "JOIN DOC_GIA AS dg ON pm.MA_DG = dg.MA_DG "
 					+ "WHERE pm.TRANG_THAI = 1";
