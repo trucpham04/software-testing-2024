@@ -61,6 +61,7 @@ CREATE TABLE `ct_pmuon` (
 
 LOCK TABLES `ct_pmuon` WRITE;
 /*!40000 ALTER TABLE `ct_pmuon` DISABLE KEYS */;
+INSERT INTO `ct_pmuon` VALUES ('78046','0006',1,1),('45385','0014',1,1),('18149','0005',1,1),('93542','0006',2,1);
 /*!40000 ALTER TABLE `ct_pmuon` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -101,6 +102,7 @@ CREATE TABLE `ct_ptra` (
   `MA_PTRA` char(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `MA_SACH` char(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `SO_LUONG` int DEFAULT NULL,
+  `TRANG_THAI` int DEFAULT NULL,
   KEY `MA_PTRA` (`MA_PTRA`),
   KEY `MA_SACH` (`MA_SACH`),
   CONSTRAINT `ct_ptra_ibfk_1` FOREIGN KEY (`MA_PTRA`) REFERENCES `phieu_tra` (`MA_PTRA`),
@@ -141,35 +143,35 @@ CREATE TABLE `doc_gia` (
 -- Dumping data for table `doc_gia`
 --
 
-/*!40000 ALTER TABLE `doc_gia` ENABLE KEYS */;
+LOCK TABLES `doc_gia` WRITE;
+/*!40000 ALTER TABLE `doc_gia` DISABLE KEYS */;
+INSERT INTO `doc_gia` VALUES ('0001','Anh Mai','0923456736','anhmai@gmail.com',1),('0002','Phuong Yen','0923456730','phuongyen@gmail.com',1),('0003','Thai Minh','0923456735','thaiminh@gmail.com',1),('0004','Nguyen Quan','0923456738','ngyenquan@gmail.com',1),('0005','Nguyen Quan','0923456739','ngyenquan@gmail.com',1);
+LOCK TABLES `loai_sach` WRITE;
+/*!40000 ALTER TABLE `loai_sach` DISABLE KEYS */;
+INSERT INTO `loai_sach` VALUES ('0001','Tiểu Thuyết',1),('0002','Tâm Lý',1),('0003','Truyện Tranh',1),('0004','Cổ Tích',1),('0005','Tâm Linh',1);
+/*!40000 ALTER TABLE `loai_sach` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `loai_sach`
+-- Table structure for table `nha_xuat_ban`
 --
 
-DROP TABLE IF EXISTS `loai_sach`;
+DROP TABLE IF EXISTS `nha_xuat_ban`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `loai_sach` (
-  `MA_LOAI` char(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `TEN_LOAI` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+CREATE TABLE `nha_xuat_ban` (
+  `MA_NXB` char(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `TEN_NXB` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `TRANG_THAI` tinyint DEFAULT NULL,
-  PRIMARY KEY (`MA_LOAI`),
-  CONSTRAINT `TonTai2` CHECK ((`TRANG_THAI` in (0,1)))
+  PRIMARY KEY (`MA_NXB`),
+  CONSTRAINT `TonTai` CHECK ((`TRANG_THAI` in (0,1)))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `loai_sach`
+-- Dumping data for table `nha_xuat_ban`
 --
 
-LOCK TABLES `loai_sach` WRITE;
-/*!40000 ALTER TABLE `loai_sach` DISABLE KEYS */;
-INSERT INTO `loai_sach` VALUES ('0001','Tiểu Thuyết',1),('0002','Tâm Lý',1),('0003','Truyện Tranh',1),('0004','Cổ Tích',1),('0005','Tâm Linh',1);
-LOCK TABLES `nha_xuat_ban` WRITE;
-/*!40000 ALTER TABLE `nha_xuat_ban` DISABLE KEYS */;
-INSERT INTO `nha_xuat_ban` VALUES ('0001','Kim Dung',1),('0002','Phan Thi',1),('0003','Hoa Yen',1);
 /*!40000 ALTER TABLE `nha_xuat_ban` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -260,8 +262,40 @@ LOCK TABLES `phieu_nhap` WRITE;
 INSERT INTO `phieu_nhap` VALUES ('00001','2024-03-23','0001','0001',400000,1),('00002','2024-03-22','0001','0002',400000,1);
 LOCK TABLES `phieu_phat` WRITE;
 /*!40000 ALTER TABLE `phieu_phat` DISABLE KEYS */;
-LOCK TABLES `phieu_tra` WRITE;
-/*!40000 ALTER TABLE `phieu_tra` DISABLE KEYS */;
+/*!40000 ALTER TABLE `phieu_phat` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `phieu_tra`
+--
+
+DROP TABLE IF EXISTS `phieu_tra`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `phieu_tra` (
+  `MA_PTRA` char(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `MA_PMUON` char(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `MA_DG` char(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `MA_NV` char(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `NG_TRA` date DEFAULT NULL,
+  `TINH_TRANG` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `SO_LUONG` int DEFAULT NULL,
+  `TRANG_THAI` tinyint DEFAULT NULL,
+  PRIMARY KEY (`MA_PTRA`),
+  KEY `MA_PMUON` (`MA_PMUON`),
+  KEY `MA_DG` (`MA_DG`),
+  KEY `MA_NV` (`MA_NV`),
+  CONSTRAINT `phieu_tra_ibfk_1` FOREIGN KEY (`MA_PMUON`) REFERENCES `phieu_muon` (`MA_PMUON`),
+  CONSTRAINT `phieu_tra_ibfk_2` FOREIGN KEY (`MA_DG`) REFERENCES `doc_gia` (`MA_DG`),
+  CONSTRAINT `phieu_tra_ibfk_3` FOREIGN KEY (`MA_NV`) REFERENCES `nhan_vien` (`MA_NV`),
+  CONSTRAINT `TonTai9` CHECK ((`TRANG_THAI` in (0,1)))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `phieu_tra`
+--
+
 /*!40000 ALTER TABLE `phieu_tra` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -283,43 +317,12 @@ CREATE TABLE `quyen` (
 -- Dumping data for table `quyen`
 --
 
-/*!40000 ALTER TABLE `quyen` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `sach`
---
-
-DROP TABLE IF EXISTS `sach`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `sach` (
-  `MA_SACH` char(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `TEN_SACH` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `MO_TA` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `NAM_XB` char(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `MA_TGIA` char(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `MA_NXB` char(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `DON_GIA` int DEFAULT NULL,
-  `SO_LUONG` int DEFAULT NULL,
-  `TRANG_THAI` tinyint DEFAULT NULL,
-  `MA_LOAI_SACH` char(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`MA_SACH`),
-  KEY `MA_LOAI_SACH` (`MA_LOAI_SACH`),
-  KEY `MA_TGIA` (`MA_TGIA`),
-  KEY `MA_NXB` (`MA_NXB`),
-  CONSTRAINT `sach_ibfk_1` FOREIGN KEY (`MA_LOAI_SACH`) REFERENCES `loai_sach` (`MA_LOAI`),
-  CONSTRAINT `sach_ibfk_2` FOREIGN KEY (`MA_TGIA`) REFERENCES `tac_gia` (`MA_TGIA`),
-  CONSTRAINT `sach_ibfk_3` FOREIGN KEY (`MA_NXB`) REFERENCES `nha_xuat_ban` (`MA_NXB`),
-  CONSTRAINT `TonTai3` CHECK ((`TRANG_THAI` in (0,1)))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `sach`
---
-
-020','Hoàng Hậu Ki',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0007','0002',50000,4,1,'0004'),('0021','Thái Cực Quyền',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0007','0002',50000,4,1,'0005'),('0022','Trường An Phủ',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0008','0002',50000,4,1,'0005'),('0023','Hồng Lâu Mộng',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0008','0002',50000,4,1,'0005'),('0024','Cạnh Lâu Mộng',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0008','0002',50000,4,1,'0005'),('0025','Truy Tìm Sự Thật',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0009','0002',50000,4,1,'0005'),('0026','Sóng',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0009','0002',50000,4,1,'0001'),('0027','Tuyên Sơn Phi Hổ',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0009','0002',50000,4,1,'0002'),('0028','Long Phụng Sum Vầy',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0010','0002',50000,4,1,'0003'),('0029','Thủy Hử',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0010','0003',50000,4,1,'0004'),('0030','Đá Phách Bao Điền',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0014','0003',50000,4,1,'0002'),('0031','Vô Thường Chấp Niệm',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0010','0003',50000,4,1,'0005'),('0032','Nhất Luyện Nhi Niệm',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0011','0003',50000,4,1,'0001'),('0033','Hoán Đổi',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0011','0003',50000,4,1,'0002'),('0034','Yêu Không Lối Thóat',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0011','0003',50000,4,1,'0003'),('0035','Cho Dến Khi Nào Hoa Nở',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0012','0003',50000,4,1,'0004'),('0036','Mãi Mãi Là Bao Xa',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0012','0003',50000,4,1,'0005'),('0037','Vòng Xoáy Tình Tiền',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0012','0003',50000,4,1,'0001'),('0038','Kim Bình Mai',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0013','0003',50000,4,1,'0002'),('0039','Hồng Trần Lạc Đạo',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0013','0003',50000,4,1,'0003'),('0040','Tam Quốc Chí',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0013','0003',50000,4,1,'0004'),('0041','Hoài Ngọc Truyền Kì',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0014','0003',50000,4,1,'0005'),('0042','Thần Điêu Đại Hiệp',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0014','0003',50000,4,0,'0001');
+LOCK TABLES `quyen` WRITE;
+/*!40000 ALTER TABLE `quyen` DISABLE KEYS */;
+INSERT INTO `quyen` VALUES ('0001','Quan Li'),('0002','Nhan Vien');
+LOCK TABLES `sach` WRITE;
+/*!40000 ALTER TABLE `sach` DISABLE KEYS */;
+INSERT INTO `sach` VALUES ('0001','Ma Đạo Tổ Sư',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0001','0001',50000,1,1,'0001'),('0002','Thiên Y Truyền Kì',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0001','0001',50000,4,1,'0001'),('0003','Nghiêu Luyện Thần Quái',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0001','0001',50000,3,1,'0001'),('0004','Tiên Nghịch',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0002','0001',50000,4,1,'0001'),('0005','Một Lời Nói',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0002','0001',50000,4,1,'0001'),('0006','Tội Phạm',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0002','0001',50000,3,1,'0002'),('0007','Thám Tử Tội Phạm',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0003','0001',50000,4,1,'0002'),('0008','Thủ Đọan',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0003','0001',50000,4,1,'0002'),('0009','Trò Chơi Số',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0003','0001',50000,4,1,'0002'),('0010','Liêu Trai Chí Di',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0004','0001',50000,4,1,'0002'),('0011','Tây Du Kí',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0004','0001',50000,4,1,'0003'),('0012','Bạch Phát Ma Nữ',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0004','0001',50000,4,1,'0003'),('0013','Cửu Tình Kì Án',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0005','0001',50000,4,1,'0003'),('0014','Nguyệt Thương Trọng Hoa',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0005','0001',50000,3,1,'0003'),('0015','Bến Thượng Hải',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0005','0002',50000,4,1,'0003'),('0016','Dinh Thiên Tai',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0006','0002',50000,4,1,'0004'),('0017','Bất Tận Đường Đời',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0006','0002',50000,4,1,'0004'),('0018','Hoa Băng Vô Hình',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0006','0002',50000,4,1,'0004'),('0019','Dị Thường Trọng Sinh',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0007','0002',50000,4,1,'0004'),('0020','Hoàng Hậu Ki',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0007','0002',50000,4,1,'0004'),('0021','Thái Cực Quyền',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0007','0002',50000,4,1,'0005'),('0022','Trường An Phủ',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0008','0002',50000,4,1,'0005'),('0023','Hồng Lâu Mộng',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0008','0002',50000,4,1,'0005'),('0024','Cạnh Lâu Mộng',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0008','0002',50000,4,1,'0005'),('0025','Truy Tìm Sự Thật',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0009','0002',50000,4,1,'0005'),('0026','Sóng',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0009','0002',50000,4,1,'0001'),('0027','Tuyên Sơn Phi Hổ',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0009','0002',50000,4,1,'0002'),('0028','Long Phụng Sum Vầy',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0010','0002',50000,4,1,'0003'),('0029','Thủy Hử',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0010','0003',50000,4,1,'0004'),('0030','Đá Phách Bao Điền',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0014','0003',50000,4,1,'0002'),('0031','Vô Thường Chấp Niệm',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0010','0003',50000,4,1,'0005'),('0032','Nhất Luyện Nhi Niệm',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0011','0003',50000,4,1,'0001'),('0033','Hoán Đổi',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0011','0003',50000,4,1,'0002'),('0034','Yêu Không Lối Thóat',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0011','0003',50000,4,1,'0003'),('0035','Cho Dến Khi Nào Hoa Nở',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0012','0003',50000,4,1,'0004'),('0036','Mãi Mãi Là Bao Xa',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0012','0003',50000,4,1,'0005'),('0037','Vòng Xoáy Tình Tiền',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0012','0003',50000,4,1,'0001'),('0038','Kim Bình Mai',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0013','0003',50000,4,1,'0002'),('0039','Hồng Trần Lạc Đạo',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0013','0003',50000,4,1,'0003'),('0040','Tam Quốc Chí',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0013','0003',50000,4,1,'0004'),('0041','Hoài Ngọc Truyền Kì',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0014','0003',50000,4,1,'0005'),('0042','Thần Điêu Đại Hiệp',' These stories blend mystery and suspense, offering readers a thrilling journey into the unknown realms of spirituality and the afterlife.','2020','0014','0003',50000,4,0,'0001');
 /*!40000 ALTER TABLE `sach` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -346,35 +349,12 @@ CREATE TABLE `tac_gia` (
 -- Dumping data for table `tac_gia`
 --
 
-/*!40000 ALTER TABLE `tac_gia` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `users`
---
-
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `users` (
-  `MA_NV` char(8) NOT NULL,
-  `USERNAME` varchar(50) DEFAULT NULL,
-  `PASSWORD` varchar(100) DEFAULT NULL,
-  `MA_QUYEN` char(8) DEFAULT NULL,
-  `TRANG_THAI` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `users`
---
-
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Dumping routines for database 'qltv'
---
+LOCK TABLES `tac_gia` WRITE;
+/*!40000 ALTER TABLE `tac_gia` DISABLE KEYS */;
+INSERT INTO `tac_gia` VALUES ('0001','Chân Trí','Nam','1976',1),('0002','Diệp Lạc Vô Tâm','Nữ','1976',1),('0003','Cố Mạn','Nữ','1976',1),('0004','Lạc Tử Thiên','Nam','1975',1),('0005','Tô Bạch Thố','Nam','1975',1),('0006','Liu Yongbiao','Nam','1970',1),('0007','Zhou Haohui:','Nữ','1970',1),('0008','Mai Jia','Nam','1970',1),('0009','Lạc Dương','Nam','1964',1),('0010','Tưởng Văn Hoa ','Nữ','1970',1),('0011','Ni Kuang','Nam','1978',1),('0012','Duong Quang Minh','Nữ','1980',1),('0013','Đong Phuong Gia ','Nam','1982',1),('0014','Đang Duong Gia','Nữ','1982',1);
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES ('0001','maianh0001','123456','0002',1),('0002','yenphuong0002','123456','0002',1),('ad','admin','123','0001',1),('0003','khacquan0003','123456','0002',1),('0004','minhthai0004','123456','0002',1);
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -385,4 +365,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-09-10 10:51:06
+-- Dump completed on 2024-09-10 22:06:31
