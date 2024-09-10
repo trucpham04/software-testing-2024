@@ -246,7 +246,7 @@ public class NhanVienView extends JPanel {
 			outModel(model, nvBUS.getList());
 			clear();
 			JOptionPane.showMessageDialog(null, "Đã xóa thành công !");
-			
+
 		} else {
 			// Thực hiện thao tác khi người dùng nhấn Cancel hoặc đóng hộp thoại
 			// Đặt các đoạn mã của bạn ở đây
@@ -386,7 +386,7 @@ public class NhanVienView extends JPanel {
 		txt_Search = new JTextField();
 		txt_Search.setPreferredSize(new Dimension(600, 40));
 		txt_Search.setFont(new Font("Arial", BOLD, 15));
-		ImageIcon icon = new ImageIcon("src/img/search-icon.png");
+		ImageIcon icon = new ImageIcon(getClass().getResource("/img/search-icon.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImage = icon.getImage();
 		// Thay đổi kích thước của hình ảnh
@@ -411,7 +411,7 @@ public class NhanVienView extends JPanel {
 		panel_nav = new JPanel(new FlowLayout());
 		panel_nav.setBackground(Color.WHITE);
 		panel_nav.setPreferredSize(new Dimension(1160, 70));
-		ImageIcon iconhome = new ImageIcon("src/img/home-icon.png");
+		ImageIcon iconhome = new ImageIcon(getClass().getResource("/img/home-icon.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImagehome = iconhome.getImage();
 		// Thay đổi kích thước của hình ảnh
@@ -423,7 +423,7 @@ public class NhanVienView extends JPanel {
 		home.setFont(new Font("Arial", BOLD, 15));
 		home.setPreferredSize(new Dimension(150, 60));
 
-		ImageIcon iconinsert = new ImageIcon("src/img/blue-plus-icon.png");
+		ImageIcon iconinsert = new ImageIcon(getClass().getResource("/img/blue-plus-icon.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImageinsert = iconinsert.getImage();
 		// Thay đổi kích thước của hình ảnh
@@ -435,7 +435,7 @@ public class NhanVienView extends JPanel {
 		insert.setFont(new Font("Arial", BOLD, 15));
 		insert.setPreferredSize(new Dimension(150, 60));
 
-		ImageIcon icondelete = new ImageIcon("src/img/blue-cross-icon.png");
+		ImageIcon icondelete = new ImageIcon(getClass().getResource("/img/blue-cross-icon.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImagedelete = icondelete.getImage();
 		// Thay đổi kích thước của hình ảnh
@@ -447,7 +447,7 @@ public class NhanVienView extends JPanel {
 		delete.setFont(new Font("Arial", BOLD, 15));
 		delete.setPreferredSize(new Dimension(150, 60));
 
-		ImageIcon iconedit = new ImageIcon("src/img/Pencil-4-icon.png");
+		ImageIcon iconedit = new ImageIcon(getClass().getResource("/img/Pencil-4-icon.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImageedit = iconedit.getImage();
 		// Thay đổi kích thước của hình ảnh
@@ -459,7 +459,8 @@ public class NhanVienView extends JPanel {
 		edit.setFont(new Font("Arial", BOLD, 15));
 		edit.setPreferredSize(new Dimension(150, 60));
 
-		ImageIcon iconprint = new ImageIcon("src/img/Dakirby309-Simply-Styled-Microsoft-Excel-2013.256.png");
+		ImageIcon iconprint = new ImageIcon(
+				getClass().getResource("/img/Dakirby309-Simply-Styled-Microsoft-Excel-2013.256.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImageprint = iconprint.getImage();
 		// Thay đổi kích thước của hình ảnh
@@ -471,7 +472,7 @@ public class NhanVienView extends JPanel {
 		import_excel.setFont(new Font("Arial", BOLD, 15));
 		import_excel.setPreferredSize(new Dimension(200, 60));
 
-		ImageIcon iconexcel = new ImageIcon("src/img/Microsoft-Excel-icon.png");
+		ImageIcon iconexcel = new ImageIcon(getClass().getResource("/img/Microsoft-Excel-icon.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImageexcel = iconexcel.getImage();
 		// Thay đổi kích thước của hình ảnh
@@ -612,7 +613,7 @@ public class NhanVienView extends JPanel {
 		panel_main_form.add(panel_form, BorderLayout.CENTER);
 		panel_main_form.add(panel_button, BorderLayout.SOUTH);
 		panel_main_form.setBorder(new LineBorder(Color.PINK, 4, true));
-		this.setLayout(new FlowLayout(0,0,0));
+		this.setLayout(new FlowLayout(0, 0, 0));
 		this.setPreferredSize(new Dimension(1160, 730));
 		this.setBackground(Color.WHITE);
 		this.add(panel_Title);
@@ -652,18 +653,18 @@ public class NhanVienView extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				int selectedIndex = combobox.getSelectedIndex();
 				switch (selectedIndex) {
-				case 0:
-					TimTheoID();
-					break;
-				case 1:
-					TimTheoTen();
-					break;
-				case 2:
-					TimTheoSdt();
-					break;
-				case 3:
-					TimTheoEmail();
-					break;
+					case 0:
+						TimTheoID();
+						break;
+					case 1:
+						TimTheoTen();
+						break;
+					case 2:
+						TimTheoSdt();
+						break;
+					case 3:
+						TimTheoEmail();
+						break;
 
 				}
 
@@ -846,7 +847,7 @@ public class NhanVienView extends JPanel {
 			}
 
 		});
-	
+
 		import_excel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -865,11 +866,11 @@ public class NhanVienView extends JPanel {
 							}
 
 						}
-					if (!objkotrung.isEmpty()) {
-						nvDao.Insert_NhieuNV(objkotrung);
-						nvBUS.add_all(objkotrung);
-					}
-					
+						if (!objkotrung.isEmpty()) {
+							nvDao.Insert_NhieuNV(objkotrung);
+							nvBUS.add_all(objkotrung);
+						}
+
 					}
 
 					outModel(model, nvBUS.getList());

@@ -327,7 +327,7 @@ public class UsersView extends JPanel {
 		txt_Search = new JTextField();
 		txt_Search.setPreferredSize(new Dimension(600, 40));
 		txt_Search.setFont(new Font("Arial", BOLD, 15));
-		ImageIcon icon = new ImageIcon("src/img/search-icon.png");
+		ImageIcon icon = new ImageIcon(getClass().getResource("/img/search-icon.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImage = icon.getImage();
 		// Thay đổi kích thước của hình ảnh
@@ -352,7 +352,7 @@ public class UsersView extends JPanel {
 		panel_nav = new JPanel(new FlowLayout());
 		panel_nav.setBackground(Color.WHITE);
 		panel_nav.setPreferredSize(new Dimension(1160, 70));
-		ImageIcon iconhome = new ImageIcon("src/img/home-icon.png");
+		ImageIcon iconhome = new ImageIcon(getClass().getResource("/img/home-icon.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImagehome = iconhome.getImage();
 		// Thay đổi kích thước của hình ảnh
@@ -364,7 +364,7 @@ public class UsersView extends JPanel {
 		home.setFont(new Font("Arial", BOLD, 15));
 		home.setPreferredSize(new Dimension(150, 60));
 
-		ImageIcon iconinsert = new ImageIcon("src/img/blue-plus-icon.png");
+		ImageIcon iconinsert = new ImageIcon(getClass().getResource("/img/blue-plus-icon.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImageinsert = iconinsert.getImage();
 		// Thay đổi kích thước của hình ảnh
@@ -376,7 +376,7 @@ public class UsersView extends JPanel {
 		insert.setFont(new Font("Arial", BOLD, 15));
 		insert.setPreferredSize(new Dimension(150, 60));
 
-		ImageIcon icondelete = new ImageIcon("src/img/blue-cross-icon.png");
+		ImageIcon icondelete = new ImageIcon(getClass().getResource("/img/blue-cross-icon.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImagedelete = icondelete.getImage();
 		// Thay đổi kích thước của hình ảnh
@@ -388,7 +388,7 @@ public class UsersView extends JPanel {
 		delete.setFont(new Font("Arial", BOLD, 15));
 		delete.setPreferredSize(new Dimension(150, 60));
 
-		ImageIcon iconedit = new ImageIcon("src/img/Pencil-4-icon.png");
+		ImageIcon iconedit = new ImageIcon(getClass().getResource("/img/Pencil-4-icon.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImageedit = iconedit.getImage();
 		// Thay đổi kích thước của hình ảnh
@@ -400,7 +400,7 @@ public class UsersView extends JPanel {
 		edit.setFont(new Font("Arial", BOLD, 15));
 		edit.setPreferredSize(new Dimension(150, 60));
 
-		ImageIcon iconprint = new ImageIcon("src/img/Dakirby309-Simply-Styled-Microsoft-Excel-2013.256.png");
+		ImageIcon iconprint = new ImageIcon(getClass().getResource("/img/Dakirby309-Simply-Styled-Microsoft-Excel-2013.256.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImageprint = iconprint.getImage();
 		// Thay đổi kích thước của hình ảnh
@@ -412,7 +412,7 @@ public class UsersView extends JPanel {
 		import_excel.setFont(new Font("Arial", BOLD, 15));
 		import_excel.setPreferredSize(new Dimension(200, 60));
 
-		ImageIcon iconexcel = new ImageIcon("src/img/Microsoft-Excel-icon.png");
+		ImageIcon iconexcel = new ImageIcon(getClass().getResource("/img/Microsoft-Excel-icon.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImageexcel = iconexcel.getImage();
 		// Thay đổi kích thước của hình ảnh

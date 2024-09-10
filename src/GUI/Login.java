@@ -62,15 +62,15 @@ public class Login extends JFrame implements KeyListener {
 		setTitle("Đăng nhập");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setBackground(Color.white);
-		ImageIcon iconuser = new ImageIcon("src/img/User.png");
+		ImageIcon iconuser = new ImageIcon(getClass().getResource("/img/User.png"));
 		Image originalImageuser = iconuser.getImage();
 		Image scaledImageuser = originalImageuser.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
 		ImageIcon scaledIconuser = new ImageIcon(scaledImageuser);
-		ImageIcon icon = new ImageIcon("src/img/Lock.png");
+		ImageIcon icon = new ImageIcon(getClass().getResource("/img/Lock.png"));
 		Image originalImage = icon.getImage();
 		Image scaledImage = originalImage.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
 		ImageIcon scaledIcon = new ImageIcon(scaledImageuser);
-		ImageIcon a = new ImageIcon("src/img/Login.png");
+		ImageIcon a = new ImageIcon(getClass().getResource("/img/Login.png"));
 		Image b = a.getImage();
 		Image c = b.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
 		ImageIcon d = new ImageIcon(c);
@@ -121,12 +121,12 @@ public class Login extends JFrame implements KeyListener {
 		setLocationRelativeTo(null);
 		setVisible(true);
 
-//        exit.addMouseListener(new MouseAdapter() {
-//            public void mouseClicked(MouseEvent e)
-//            {
-//                System.exit(0);
-//            }
-//        });
+		// exit.addMouseListener(new MouseAdapter() {
+		// public void mouseClicked(MouseEvent e)
+		// {
+		// System.exit(0);
+		// }
+		// });
 
 		us.addMouseListener((new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
