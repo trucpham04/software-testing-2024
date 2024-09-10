@@ -256,7 +256,7 @@ public class PhieuMuonDAO {
 		try {
 			DataConnection conn = new DataConnection();
 			Connection connectdata = conn.getConnection();
-			String sqlquery = "INSERT INTO phieu_muon SET MA_PMUON=?, MG_MUON=?, MA_NV=?, MA_DG=?, NG_TRA=?, SO_LUONG=?, TRANG_THAI=1";
+			String sqlquery = "INSERT INTO phieu_muon SET MA_PMUON=?, NG_MUON=?, MA_NV=?, MA_DG=?, NG_TRA=?, SO_LUONG=?, TRANG_THAI=1";
 			int rowsAffected;
 			try (PreparedStatement preparedStatement = connectdata.prepareStatement(sqlquery)) {
 				preparedStatement.setString(1, obj.getMaPhieuMuon());
@@ -368,10 +368,10 @@ public class PhieuMuonDAO {
 			DataConnection conn = new DataConnection();
 			java.sql.Connection connectdata = conn.getConnection();
 
-			String query = "SELECT pm.MA_PMUON AS MAPMUON, pm.MG_MUON AS NGMUON, pm.NG_TRA AS NGTRA, pm.MA_DG AS MADG, pm.MA_NV AS MANV, pm.SO_LUONG AS SOLUONG, "
+			String query = "SELECT pm.MA_PMUON AS MAPMUON, pm.NG_MUON AS NGMUON, pm.NG_TRA AS NGTRA, pm.MA_DG AS MADG, pm.MA_NV AS MANV, pm.SO_LUONG AS SOLUONG, "
 					+ "dg.HO_TEN AS TENDG, nv.HO_TEN AS TENNV "
 					+ "FROM PHIEU_MUON AS pm, NHAN_VIEN AS nv, DOC_GIA AS dg "
-					+ "WHERE MG_MUON = ? AND pm.TRANG_THAI = 1 AND pm.MA_DG = dg.MA_DG AND pm.MA_NV = nv.MA_NV";
+					+ "WHERE NG_MUON = ? AND pm.TRANG_THAI = 1 AND pm.MA_DG = dg.MA_DG AND pm.MA_NV = nv.MA_NV";
 
 			try (PreparedStatement preparedStatement = connectdata.prepareStatement(query)) {
 				preparedStatement.setDate(1, chosenDate);
@@ -475,10 +475,10 @@ public class PhieuMuonDAO {
 			DataConnection conn = new DataConnection();
 			java.sql.Connection connectdata = conn.getConnection();
 
-			String Query = "SELECT pm.MA_PMUON AS MAPMUON, pm.MG_MUON AS NGMUON,pm.	NG_TRA AS NGTRA, pm.MA_DG AS MADG, pm.MA_NV AS MANV, pm.SO_LUONG AS SOLUONG, "
+			String Query = "SELECT pm.MA_PMUON AS MAPMUON, pm.NG_MUON AS NGMUON,pm.	NG_TRA AS NGTRA, pm.MA_DG AS MADG, pm.MA_NV AS MANV, pm.SO_LUONG AS SOLUONG, "
 					+ "dg.HO_TEN AS TENDG, nv.HO_TEN AS TENNV "
 					+ "FROM PHIEU_MUON AS pm,NHAN_VIEN AS nv , DOC_GIA AS dg "
-					+ "WHERE pm.TRANG_THAI = 1 AND pm.MA_NV = nv.MA_NV AND pm.MA_DG = dg.MA_DG AND pm.MG_MUON BETWEEN ? AND ?";
+					+ "WHERE pm.TRANG_THAI = 1 AND pm.MA_NV = nv.MA_NV AND pm.MA_DG = dg.MA_DG AND pm.NG_MUON BETWEEN ? AND ?";
 
 			try (PreparedStatement preparedStatement = connectdata.prepareStatement(Query)) {
 				preparedStatement.setDate(1, startDate);
@@ -605,11 +605,11 @@ public class PhieuMuonDAO {
 			java.sql.Connection connectdata = conn.getConnection();
 
 			// Tạo câu truy vấn SQL
-			String query = "SELECT pm.MA_PMUON AS MAPMUON, pm.MG_MUON AS NGMUON,pm.	NG_TRA AS NGTRA, pm.MA_DG AS MADG, pm.MA_NV AS MANV, pm.SO_LUONG AS SOLUONG, "
+			String query = "SELECT pm.MA_PMUON AS MAPMUON, pm.NG_MUON AS NGMUON,pm.	NG_TRA AS NGTRA, pm.MA_DG AS MADG, pm.MA_NV AS MANV, pm.SO_LUONG AS SOLUONG, "
 					+ "dg.HO_TEN AS TENDG, nv.HO_TEN AS TENNV " + "FROM PHIEU_MUON AS pm "
 					+ "INNER JOIN NHAN_VIEN AS nv ON pm.MA_NV = nv.MA_NV "
 					+ "INNER JOIN DOC_GIA AS dg  ON pm.MA_DG = dg.MA_DG "
-					+ "WHERE YEAR( pm.MG_MUON) = ? AND MONTH( pm.MG_MUON) = ?";
+					+ "WHERE YEAR( pm.NG_MUON) = ? AND MONTH( pm.NG_MUON) = ?";
 
 			try (PreparedStatement preparedStatement = connectdata.prepareStatement(query)) {
 				preparedStatement.setInt(1, year);
@@ -661,12 +661,12 @@ public class PhieuMuonDAO {
 
 			String query = "SELECT sach.MA_SACH, sach.TEN_SACH, " + "COUNT(ct_pmuon.MA_PMUON) AS SoLanMuon, "
 					+ "SUM(ct_pmuon.SO_LUONG) AS SoLuongMuon, " + "TotalMuon.TotalSoLanMuon AS TongSoLanMuon, "
-					+ "phieu_muon.MG_MUON " + "FROM sach " + "JOIN ct_pmuon ON sach.MA_SACH = ct_pmuon.MA_SACH "
+					+ "phieu_muon.NG_MUON " + "FROM sach " + "JOIN ct_pmuon ON sach.MA_SACH = ct_pmuon.MA_SACH "
 					+ "JOIN phieu_muon ON ct_pmuon.MA_PMUON = phieu_muon.MA_PMUON " + "JOIN (SELECT ct_pmuon.MA_SACH, "
 					+ "SUM(ct_pmuon.SO_LUONG) AS TotalSoLuongMuon, " + "COUNT(ct_pmuon.MA_PMUON) AS TotalSoLanMuon "
 					+ "FROM ct_pmuon " + "GROUP BY ct_pmuon.MA_SACH) AS TotalMuon ON sach.MA_SACH = TotalMuon.MA_SACH "
-					+ "WHERE phieu_muon.MG_MUON = ?"
-					+ "GROUP BY sach.MA_SACH, sach.TEN_SACH, TotalMuon.TotalSoLanMuon,phieu_muon.MG_MUON";
+					+ "WHERE phieu_muon.NG_MUON = ?"
+					+ "GROUP BY sach.MA_SACH, sach.TEN_SACH, TotalMuon.TotalSoLanMuon,phieu_muon.NG_MUON";
 			try (PreparedStatement preparedStatement = connectdata.prepareStatement(query)) {
 				preparedStatement.setDate(1, chosenDate);
 				try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -699,13 +699,13 @@ public class PhieuMuonDAO {
 			java.sql.Connection connectdata = conn.getConnection();
 
 			String Query = "SELECT sach.MA_SACH, sach.TEN_SACH, " + "COUNT(ct_pmuon.MA_PMUON) AS SoLanMuon, "
-					+ "SUM(ct_pmuon.SO_LUONG) AS SoLuongMuon, " + "ANY_VALUE(phieu_muon.MG_MUON) AS MG_MUON, "
+					+ "SUM(ct_pmuon.SO_LUONG) AS SoLuongMuon, " + "ANY_VALUE(phieu_muon.NG_MUON) AS NG_MUON, "
 					+ "TotalMuon.TotalSoLanMuon AS TongSoLanMuon " + "FROM sach "
 					+ "JOIN ct_pmuon ON sach.MA_SACH = ct_pmuon.MA_SACH "
 					+ "JOIN phieu_muon ON ct_pmuon.MA_PMUON = phieu_muon.MA_PMUON " + "JOIN (SELECT ct_pmuon.MA_SACH, "
 					+ "SUM(ct_pmuon.SO_LUONG) AS TotalSoLuongMuon, " + "COUNT(ct_pmuon.MA_PMUON) AS TotalSoLanMuon "
 					+ "FROM ct_pmuon " + "GROUP BY ct_pmuon.MA_SACH) AS TotalMuon ON sach.MA_SACH = TotalMuon.MA_SACH "
-					+ "WHERE phieu_muon.MG_MUON BETWEEN ? AND ? "
+					+ "WHERE phieu_muon.NG_MUON BETWEEN ? AND ? "
 					+ "GROUP BY sach.MA_SACH, sach.TEN_SACH, TotalMuon.TotalSoLanMuon";
 
 			try (PreparedStatement preparedStatement = connectdata.prepareStatement(Query)) {
@@ -743,13 +743,13 @@ public class PhieuMuonDAO {
 			// Tạo câu truy vấn SQL
 
 			String query = "SELECT sach.MA_SACH, sach.TEN_SACH, " + "COUNT(ct_pmuon.MA_PMUON) AS SoLanMuon, "
-					+ "SUM(ct_pmuon.SO_LUONG) AS SoLuongMuon, " + "ANY_VALUE(phieu_muon.MG_MUON) AS MG_MUON, "
+					+ "SUM(ct_pmuon.SO_LUONG) AS SoLuongMuon, " + "ANY_VALUE(phieu_muon.NG_MUON) AS NG_MUON, "
 					+ "TotalMuon.TotalSoLanMuon AS TongSoLanMuon " + "FROM sach "
 					+ "JOIN ct_pmuon ON sach.MA_SACH = ct_pmuon.MA_SACH "
 					+ "JOIN phieu_muon ON ct_pmuon.MA_PMUON = phieu_muon.MA_PMUON " + "JOIN (SELECT ct_pmuon.MA_SACH, "
 					+ "SUM(ct_pmuon.SO_LUONG) AS TotalSoLuongMuon, " + "COUNT(ct_pmuon.MA_PMUON) AS TotalSoLanMuon "
 					+ "FROM ct_pmuon " + "GROUP BY ct_pmuon.MA_SACH) AS TotalMuon ON sach.MA_SACH = TotalMuon.MA_SACH "
-					+ "WHERE YEAR(phieu_muon.MG_MUON) = ? AND MONTH(phieu_muon.MG_MUON) = ?  "
+					+ "WHERE YEAR(phieu_muon.NG_MUON) = ? AND MONTH(phieu_muon.NG_MUON) = ?  "
 					+ "GROUP BY sach.MA_SACH, sach.TEN_SACH, TotalMuon.TotalSoLanMuon";
 			try (PreparedStatement preparedStatement = connectdata.prepareStatement(query)) {
 				preparedStatement.setInt(1, year);

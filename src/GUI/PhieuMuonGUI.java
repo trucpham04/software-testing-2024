@@ -581,6 +581,10 @@ public class PhieuMuonGUI extends JPanel {
 		Image scaledImagetk = originalImagetk.getScaledInstance(35, 35, Image.SCALE_SMOOTH);
 		// Tạo một ImageIcon từ hình ảnh đã thay đổi kích thước
 		ImageIcon scaledIcontk = new ImageIcon(scaledImagetk);
+		btn_themsachmoi = new JButton("Thêm Sách Mới", scaledIconinsert);
+		btn_themsachmoi.setBackground(Color.PINK);
+		btn_themsachmoi.setFont(new Font("Arial", BOLD, 15));
+		btn_themsachmoi.setPreferredSize(new Dimension(200, 60));
 		btn_thongke = new JButton("Thống kê", scaledIcontk);
 		btn_thongke.setPreferredSize(new Dimension(200, 60));
 		btn_thongke.setForeground(Color.WHITE);
@@ -1122,7 +1126,9 @@ public class PhieuMuonGUI extends JPanel {
 				}
 				panel_ctpm_detail_t.setVisible(true);
 				btn_thempmhap.setVisible(false);
-				btn_themsachmoi.setVisible(false);
+				if (btn_themsachmoi != null) {
+					btn_themsachmoi.setVisible(false);
+				}
 			}
 		});
 		// panel_ctpm_nav.add(btn_themsachmoi);
@@ -1407,24 +1413,28 @@ public class PhieuMuonGUI extends JPanel {
 
 				objpmhapmoi.setListCTiet(list_obj);
 				int ThemMotPhieuMuon = phieumuondao.ThemMotPhieuMuon(objpmhapmoi);
+				if (ThemMotPhieuMuon > 0) {
+					phieumuonbus.ThemPhieuMuonMoi(objpmhapmoi);
+					// Nhớ thay đổi bảng
 
-				phieumuonbus.ThemPhieuMuonMoi(objpmhapmoi);
-				// Nhớ thay đổi bảng
-
-				phieumuondao.ThemMotChiTietPhieuMuon(list_obj);
-				try {
-					phieumuondao.Edit_NhieuSach(list_sachold);
-				} catch (SQLException ex) {
-					Logger.getLogger(PhieuMuonGUI.class.getName()).log(Level.SEVERE, null, ex);
+					phieumuondao.ThemMotChiTietPhieuMuon(list_obj);
+					try {
+						phieumuondao.Edit_NhieuSach(list_sachold);
+					} catch (SQLException ex) {
+						Logger.getLogger(PhieuMuonGUI.class.getName()).log(Level.SEVERE, null, ex);
+					}
+					try {
+						phieumuondao.Insert_NhieuSach(list_sachnew);
+					} catch (SQLException ex) {
+						Logger.getLogger(PhieuMuonGUI.class.getName()).log(Level.SEVERE, null, ex);
+					}
+					phieumuonbus.set_ListSach(phieumuondao.getListSACH());
+					ThemDataVaoJTablePhieuMuon(model, phieumuonbus.get_ListPhieuMuon());
+					frame_pmhap.setVisible(false);
+				} else {
+					JOptionPane.showMessageDialog(null, "Không thể thêm phiếu mượn mới!", "Cảnh báo",
+							JOptionPane.WARNING_MESSAGE);
 				}
-				try {
-					phieumuondao.Insert_NhieuSach(list_sachnew);
-				} catch (SQLException ex) {
-					Logger.getLogger(PhieuMuonGUI.class.getName()).log(Level.SEVERE, null, ex);
-				}
-				phieumuonbus.set_ListSach(phieumuondao.getListSACH());
-				ThemDataVaoJTablePhieuMuon(model, phieumuonbus.get_ListPhieuMuon());
-				frame_pmhap.setVisible(false);
 
 			}
 
