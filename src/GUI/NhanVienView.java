@@ -491,7 +491,8 @@ public class NhanVienView extends JPanel {
 		panel_nav.add(import_excel);
 		panel_nav.add(excel);
 
-		String[] columnNames = { "Mã", "Tên", "Email", "SDT", "Trạng Thái" };
+		// String[] columnNames = { "Mã", "Tên", "Email", "SDT", "Trạng Thái" };
+		String[] columnNames = { "Mã", "Tên", "Email", "SDT" };
 		model = new DefaultTableModel(columnNames, 0);
 
 		table = new JTable(model);
@@ -502,7 +503,7 @@ public class NhanVienView extends JPanel {
 		columnModel.getColumn(1).setPreferredWidth(200); // Tên
 		columnModel.getColumn(2).setPreferredWidth(200); // Phái
 		columnModel.getColumn(3).setPreferredWidth(200);
-		columnModel.getColumn(4).setPreferredWidth(60);
+		// columnModel.getColumn(4).setPreferredWidth(60);
 		((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -511,7 +512,7 @@ public class NhanVienView extends JPanel {
 		table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
 		table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
 		table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
-		table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+		// table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		table.setFocusable(false);

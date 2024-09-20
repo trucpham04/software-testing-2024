@@ -536,17 +536,18 @@ public class DocGiaView extends JPanel {
 		panel_nav.add(import_excel);
 		panel_nav.add(excel);
 
-		String[] columnNames = { "Mã", "Tên", "SĐT", "Email", "Trạng Thái" };
+		// String[] columnNames = { "Mã", "Tên", "SĐT", "Email", "Trạng Thái" };
+		String[] columnNames = { "Mã", "Tên", "SĐT", "Email" };
 		model = new DefaultTableModel(columnNames, 0);
 		ThemDataVaoJTable(model, docgiabus.getList_DocGia());
 		table = new JTable(model);
 		table.setDefaultEditor(Object.class, null);
 		TableColumnModel columnModel = table.getColumnModel();
-		columnModel.getColumn(0).setPreferredWidth(100); // Mã
-		columnModel.getColumn(1).setPreferredWidth(200); // Tên
-		columnModel.getColumn(2).setPreferredWidth(200); // Phái
+		columnModel.getColumn(0).setPreferredWidth(100);
+		columnModel.getColumn(1).setPreferredWidth(200);
+		columnModel.getColumn(2).setPreferredWidth(200);
 		columnModel.getColumn(3).setPreferredWidth(200);
-		columnModel.getColumn(4).setPreferredWidth(60);
+		// columnModel.getColumn(4).setPreferredWidth(60);
 		((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -555,7 +556,7 @@ public class DocGiaView extends JPanel {
 		table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
 		table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
 		table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
-		table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+		// table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		table.setFocusable(false);

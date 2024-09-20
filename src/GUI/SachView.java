@@ -504,7 +504,7 @@ public class SachView extends JPanel {
 		for (Sach s : data) {
 			// Đảm bảo dữ liệu được thêm vào theo đúng thứ tự của các cột trong model
 			model.addRow(new Object[] { s.getMaSach(), s.getTenSach(), s.getMoTa(), s.getNamXB(),
-					s.getTacGia().getTenTG(), s.getMaNXB().getTenNXB(), s.getDonGia(), s.getSoLuong(), s.getTrangThai(),
+					s.getTacGia().getTenTG(), s.getMaNXB().getTenNXB(), s.getDonGia(), s.getSoLuong(),
 					s.getMaLS().getTenLoai() });
 		}
 	}
@@ -635,7 +635,8 @@ public class SachView extends JPanel {
 		edit.setFont(new Font("Arial", BOLD, 15));
 		edit.setPreferredSize(new Dimension(150, 60));
 
-		ImageIcon iconprint = new ImageIcon(getClass().getResource("/img/Dakirby309-Simply-Styled-Microsoft-Excel-2013.256.png"));
+		ImageIcon iconprint = new ImageIcon(
+				getClass().getResource("/img/Dakirby309-Simply-Styled-Microsoft-Excel-2013.256.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImageprint = iconprint.getImage();
 		// Thay đổi kích thước của hình ảnh
@@ -666,8 +667,11 @@ public class SachView extends JPanel {
 		panel_nav.add(import_excel);
 		panel_nav.add(excel);
 
+		// String[] columnNames = { "Mã Sách", "Tên Sách", "Mô Tả", "Năm XB", "Tác Giả",
+		// "NXB", "Đơn Giá", "Số Lượng",
+		// "Trạng Thái", "Loại Sách" };
 		String[] columnNames = { "Mã Sách", "Tên Sách", "Mô Tả", "Năm XB", "Tác Giả", "NXB", "Đơn Giá", "Số Lượng",
-				"Trạng Thái", "Loại Sách" };
+				"Loại Sách" };
 		model = new DefaultTableModel(columnNames, 0);
 		ThemDataVaoJTable(model, sachbus.getList_Sach());
 		table = new JTable(model);
@@ -682,7 +686,7 @@ public class SachView extends JPanel {
 		columnModel.getColumn(6).setPreferredWidth(100);
 		columnModel.getColumn(7).setPreferredWidth(90);
 		columnModel.getColumn(8).setPreferredWidth(100);
-		columnModel.getColumn(9).setPreferredWidth(130);
+		// columnModel.getColumn(9).setPreferredWidth(130);
 		((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -696,7 +700,7 @@ public class SachView extends JPanel {
 		table.getColumnModel().getColumn(6).setCellRenderer(centerRenderer);
 		table.getColumnModel().getColumn(7).setCellRenderer(centerRenderer);
 		table.getColumnModel().getColumn(8).setCellRenderer(centerRenderer);
-		table.getColumnModel().getColumn(9).setCellRenderer(centerRenderer);
+		// table.getColumnModel().getColumn(9).setCellRenderer(centerRenderer);
 
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -881,7 +885,7 @@ public class SachView extends JPanel {
 		panel_main_form.add(panel_form, BorderLayout.CENTER);
 		panel_main_form.add(panel_button, BorderLayout.SOUTH);
 		panel_main_form.setBorder(new LineBorder(Color.PINK, 4, true));
-		this.setLayout(new FlowLayout(0,0,0));
+		this.setLayout(new FlowLayout(0, 0, 0));
 		this.setPreferredSize(new Dimension(1160, 730));
 		this.setBackground(Color.WHITE);
 		this.add(panel_Title);
@@ -921,31 +925,31 @@ public class SachView extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				int selectedIndex = combobox.getSelectedIndex();
 				switch (selectedIndex) {
-				case 0:
-					TimTheoIDSach();
-					break;
-				case 1:
-					TimTheoTen();
-					break;
-				case 2:
-					TimTheoIDTG();
-					break;
-				case 3:
-					TimTheoIDNXB();
-					break;
-				case 4:
+					case 0:
+						TimTheoIDSach();
+						break;
+					case 1:
+						TimTheoTen();
+						break;
+					case 2:
+						TimTheoIDTG();
+						break;
+					case 3:
+						TimTheoIDNXB();
+						break;
+					case 4:
 
-					TimTheoIDLS();
-					break;
-				case 5:
-					TimTheoMoTa();
+						TimTheoIDLS();
+						break;
+					case 5:
+						TimTheoMoTa();
 
-					break;
-				case 6:
+						break;
+					case 6:
 
-					TimTheoDG();
+						TimTheoDG();
 
-					break;
+						break;
 				}
 
 			}

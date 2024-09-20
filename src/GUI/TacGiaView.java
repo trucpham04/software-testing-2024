@@ -95,7 +95,9 @@ public class TacGiaView extends JPanel {
 	private boolean isButtonInsertSelected = false;
 	private boolean isButtonEditSelected = false;
 	private boolean isButtonDeleteSelected = false;
-	String[] columnNames = { "Mã", "Tên", "Phái", "Năm Sinh", "Trạng Thái" };
+	// String[] columnNames = { "Mã", "Tên", "Phái", "Năm Sinh", "Trạng Thái" };
+
+	String[] columnNames = { "Mã", "Tên", "Phái", "Năm Sinh" };
 
 	public void Xoa() {
 		label_form.setText("Xóa Thông Tin Tác Gỉả");
@@ -274,7 +276,7 @@ public class TacGiaView extends JPanel {
 
 	}
 
-//Kiểm tra xem chuỗi nhập vào có phải là mã tác giả hay không
+	// Kiểm tra xem chuỗi nhập vào có phải là mã tác giả hay không
 	public boolean KiemTraMa(String input) {
 		// Kiểm tra xem chuỗi có chứa 4 chữ số và không chứa ký tự không phải số không
 		return input.matches("\\d{4}");
@@ -358,7 +360,8 @@ public class TacGiaView extends JPanel {
 		home.setFont(new Font("Arial", BOLD, 15));
 		home.setPreferredSize(new Dimension(150, 60));
 
-		ImageIcon iconprint = new ImageIcon(getClass().getResource("/img/Dakirby309-Simply-Styled-Microsoft-Excel-2013.256.png"));
+		ImageIcon iconprint = new ImageIcon(
+				getClass().getResource("/img/Dakirby309-Simply-Styled-Microsoft-Excel-2013.256.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImageprint = iconprint.getImage();
 		// Thay đổi kích thước của hình ảnh
@@ -432,11 +435,11 @@ public class TacGiaView extends JPanel {
 		table.setDefaultEditor(Object.class, null);
 
 		TableColumnModel columnModel = table.getColumnModel();
-		columnModel.getColumn(0).setPreferredWidth(100); // Mã
-		columnModel.getColumn(1).setPreferredWidth(500); // Tên
-		columnModel.getColumn(2).setPreferredWidth(100); // Phái
+		columnModel.getColumn(0).setPreferredWidth(100);
+		columnModel.getColumn(1).setPreferredWidth(500);
+		columnModel.getColumn(2).setPreferredWidth(100);
 		columnModel.getColumn(3).setPreferredWidth(100);
-		columnModel.getColumn(3).setPreferredWidth(60);
+		// columnModel.getColumn(3).setPreferredWidth(60);
 
 		table.setFocusable(false);
 		table.setIntercellSpacing(new Dimension(0, 0));
@@ -549,7 +552,7 @@ public class TacGiaView extends JPanel {
 		panel_main_form.add(panel_button, BorderLayout.SOUTH);
 		panel_main_form.setBorder(new LineBorder(Color.PINK, 4, true));
 
-		this.setLayout(new FlowLayout(0,0,0));
+		this.setLayout(new FlowLayout(0, 0, 0));
 		this.setPreferredSize(new Dimension(1180, 730));
 		this.setBackground(Color.WHITE);
 		this.add(panel_Title);
@@ -705,7 +708,7 @@ public class TacGiaView extends JPanel {
 
 					int selectedRow = table.getSelectedRow();
 					if (selectedRow != -1) {
-//                            isRowSelected = true;
+						// isRowSelected = true;
 						// Lấy dữ liệu của dòng được chọn
 						Object Ma = table.getValueAt(selectedRow, 0);
 						Object Ten = table.getValueAt(selectedRow, 1);

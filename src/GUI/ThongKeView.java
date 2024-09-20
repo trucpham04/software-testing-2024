@@ -296,41 +296,41 @@ public class ThongKeView extends JPanel implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				int selectedOption = combobox.getSelectedIndex();
 				switch (selectedOption) {
-				case 0: {
-					panel_thongke.setVisible(false);
-					break;
-				}
-				case 1: {
-					panel_thongke.setVisible(true);
-					panel_date.setVisible(true);
-					panel_date1.setVisible(false);
-					panel_date2.setVisible(false);
-					panel_date3.setVisible(true);
-					select_thongke = 1;
-					break;
+					case 0: {
+						panel_thongke.setVisible(false);
+						break;
+					}
+					case 1: {
+						panel_thongke.setVisible(true);
+						panel_date.setVisible(true);
+						panel_date1.setVisible(false);
+						panel_date2.setVisible(false);
+						panel_date3.setVisible(true);
+						select_thongke = 1;
+						break;
 
-				}
+					}
 
-				case 2: {
-					panel_thongke.setVisible(true);
-					panel_date.setVisible(false);
-					panel_date1.setVisible(true);
-					panel_date2.setVisible(false);
-					panel_date3.setVisible(true);
-					select_thongke = 2;
-					break;
+					case 2: {
+						panel_thongke.setVisible(true);
+						panel_date.setVisible(false);
+						panel_date1.setVisible(true);
+						panel_date2.setVisible(false);
+						panel_date3.setVisible(true);
+						select_thongke = 2;
+						break;
 
-				}
+					}
 
-				case 3: {
-					panel_thongke.setVisible(true);
-					panel_date.setVisible(false);
-					panel_date1.setVisible(false);
-					panel_date2.setVisible(true);
-					panel_date3.setVisible(true);
-					select_thongke = 3;
-					break;
-				}
+					case 3: {
+						panel_thongke.setVisible(true);
+						panel_date.setVisible(false);
+						panel_date1.setVisible(false);
+						panel_date2.setVisible(true);
+						panel_date3.setVisible(true);
+						select_thongke = 3;
+						break;
+					}
 
 				}
 
@@ -368,13 +368,14 @@ public class ThongKeView extends JPanel implements ActionListener {
 		label_start_date = new JLabel("Nhập Ngày Bắt Đầu:");
 		label_start_date.setFont(new Font("Arial", Font.BOLD, 20));
 
-// Tạo một UtilDateModel cho start_date và end_date
+		// Tạo một UtilDateModel cho start_date và end_date
 		UtilDateModel startDateModel = new UtilDateModel();
 		JDatePanelImpl datePanel1 = new JDatePanelImpl(startDateModel, p);
 		UtilDateModel endDateModel = new UtilDateModel();
 		JDatePanelImpl datePanel2 = new JDatePanelImpl(endDateModel, p);
 
-// Tạo JDatePickerImpl cho start_date và end_date, sử dụng các UtilDateModel riêng biệt
+		// Tạo JDatePickerImpl cho start_date và end_date, sử dụng các UtilDateModel
+		// riêng biệt
 		start_date = new JDatePickerImpl(datePanel1, new DateLabelFormatter());
 		end_date = new JDatePickerImpl(datePanel2, new DateLabelFormatter());
 
@@ -459,16 +460,57 @@ public class ThongKeView extends JPanel implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				switch (select_thongke) {
-				case 1: {
-					// Lấy ngày được chọn từ JDatePickerImpl
-					java.util.Date selectedDate = (java.util.Date) date.getModel().getValue();
-					// Kiểm tra xem người dùng đã chọn ngày chưa
-					if (selectedDate != null) {
-						// Chuyển đổi từ java.util.Date sang java.sql.Date
-						java.sql.Date selectedDateSql = new java.sql.Date(selectedDate.getTime());
+					case 1: {
+						// Lấy ngày được chọn từ JDatePickerImpl
+						java.util.Date selectedDate = (java.util.Date) date.getModel().getValue();
+						// Kiểm tra xem người dùng đã chọn ngày chưa
+						if (selectedDate != null) {
+							// Chuyển đổi từ java.util.Date sang java.sql.Date
+							java.sql.Date selectedDateSql = new java.sql.Date(selectedDate.getTime());
 
+							ArrayList<CTPhieuMuon> obj = new ArrayList<>();
+							obj = phieumuondao.ThongKeTheoNgay1(selectedDateSql);
+							ThemDataVaoJTablePhieuMuon(model, obj);
+							int max = 0;
+							for (CTPhieuMuon ct : obj) {
+								if (ct.getSoLanMuon() > max) {
+									max = ct.getSoLanMuon();
+									ms_tt.setText(ct.getSach().get_TenSach());
+								}
+							}
+							select_thongke = 0;
+							panel_thongke.setVisible(false);
+							break;
+						} else {
+							// Nếu người dùng chưa chọn ngày, hiển thị thông báo nhắc nhở
+							JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày bạn muốn thống kê!", "Cảnh báo",
+									JOptionPane.WARNING_MESSAGE);
+						}
+
+					}
+					case 2: {
+						// Kiểm tra xem người dùng đã nhập đủ start_date và end_date chưa
+						if (start_date.getModel().getValue() == null || end_date.getModel().getValue() == null) {
+							JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ ngày bắt đầu và ngày kết thúc.",
+									"Lỗi", JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+
+						// Lấy giá trị ngày bắt đầu và ngày kết thúc từ JDatePickerImpl
+						java.util.Date startDate = (java.util.Date) start_date.getModel().getValue();
+						java.util.Date endDate = (java.util.Date) end_date.getModel().getValue();
+
+						// Kiểm tra xem start_date có lớn hơn hoặc bằng end_date không
+						if (startDate.compareTo(endDate) >= 0) {
+							JOptionPane.showMessageDialog(null,
+									"Ngày bắt đầu phải nhỏ hơn ngày kết thúc. Vui lòng nhập lại.", "Lỗi",
+									JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+						java.sql.Date startDateSql = new java.sql.Date(startDate.getTime());
+						java.sql.Date endDateSql = new java.sql.Date(endDate.getTime());
 						ArrayList<CTPhieuMuon> obj = new ArrayList<>();
-						obj = phieumuondao.ThongKeTheoNgay1(selectedDateSql);
+						obj = phieumuondao.ThongKeTheoKhoangThoiGian1(startDateSql, endDateSql);
 						ThemDataVaoJTablePhieuMuon(model, obj);
 						int max = 0;
 						for (CTPhieuMuon ct : obj) {
@@ -480,67 +522,26 @@ public class ThongKeView extends JPanel implements ActionListener {
 						select_thongke = 0;
 						panel_thongke.setVisible(false);
 						break;
-					} else {
-						// Nếu người dùng chưa chọn ngày, hiển thị thông báo nhắc nhở
-						JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày bạn muốn thống kê!", "Cảnh báo",
-								JOptionPane.WARNING_MESSAGE);
 					}
-
-				}
-				case 2: {
-					// Kiểm tra xem người dùng đã nhập đủ start_date và end_date chưa
-					if (start_date.getModel().getValue() == null || end_date.getModel().getValue() == null) {
-						JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ ngày bắt đầu và ngày kết thúc.",
-								"Lỗi", JOptionPane.ERROR_MESSAGE);
-						return;
-					}
-
-					// Lấy giá trị ngày bắt đầu và ngày kết thúc từ JDatePickerImpl
-					java.util.Date startDate = (java.util.Date) start_date.getModel().getValue();
-					java.util.Date endDate = (java.util.Date) end_date.getModel().getValue();
-
-					// Kiểm tra xem start_date có lớn hơn hoặc bằng end_date không
-					if (startDate.compareTo(endDate) >= 0) {
-						JOptionPane.showMessageDialog(null,
-								"Ngày bắt đầu phải nhỏ hơn ngày kết thúc. Vui lòng nhập lại.", "Lỗi",
-								JOptionPane.ERROR_MESSAGE);
-						return;
-					}
-					java.sql.Date startDateSql = new java.sql.Date(startDate.getTime());
-					java.sql.Date endDateSql = new java.sql.Date(endDate.getTime());
-					ArrayList<CTPhieuMuon> obj = new ArrayList<>();
-					obj = phieumuondao.ThongKeTheoKhoangThoiGian1(startDateSql, endDateSql);
-					ThemDataVaoJTablePhieuMuon(model, obj);
-					int max = 0;
-					for (CTPhieuMuon ct : obj) {
-						if (ct.getSoLanMuon() > max) {
-							max = ct.getSoLanMuon();
-							ms_tt.setText(ct.getSach().get_TenSach());
+					case 3: {
+						int select_month = Month.getSelectedIndex();
+						int year_selected = (int) year.getValue();
+						int month = select_month + 1;
+						ArrayList<CTPhieuMuon> obj = new ArrayList<>();
+						obj = phieumuondao.ThongKeTheoNam_Thang1(year_selected, month);
+						ThemDataVaoJTablePhieuMuon(model, obj);
+						int max = 0;
+						for (CTPhieuMuon ct : obj) {
+							if (ct.getSoLanMuon() > max) {
+								max = ct.getSoLanMuon();
+								ms_tt.setText(ct.getSach().get_TenSach());
+							}
 						}
-					}
-					select_thongke = 0;
-					panel_thongke.setVisible(false);
-					break;
-				}
-				case 3: {
-					int select_month = Month.getSelectedIndex();
-					int year_selected = (int) year.getValue();
-					int month = select_month + 1;
-					ArrayList<CTPhieuMuon> obj = new ArrayList<>();
-					obj = phieumuondao.ThongKeTheoNam_Thang1(year_selected, month);
-					ThemDataVaoJTablePhieuMuon(model, obj);
-					int max = 0;
-					for (CTPhieuMuon ct : obj) {
-						if (ct.getSoLanMuon() > max) {
-							max = ct.getSoLanMuon();
-							ms_tt.setText(ct.getSach().get_TenSach());
-						}
-					}
-					select_thongke = 0;
-					panel_thongke.setVisible(false);
+						select_thongke = 0;
+						panel_thongke.setVisible(false);
 
-					break;
-				}
+						break;
+					}
 
 				}
 			}
@@ -557,7 +558,7 @@ public class ThongKeView extends JPanel implements ActionListener {
 		panel_thongke.add(panel_date1);
 		panel_thongke.add(panel_date2);
 		panel_thongke.add(panel_date3);
-this.setLayout(new FlowLayout(0,0,0));
+		this.setLayout(new FlowLayout(0, 0, 0));
 		this.setBackground(Color.WHITE);
 		this.add(panel_title);
 		this.add(panel_nav);
@@ -612,25 +613,24 @@ this.setLayout(new FlowLayout(0,0,0));
 	public void actionPerformed(ActionEvent e) {
 		int selectedOption = combobox1.getSelectedIndex();
 		switch (selectedOption) {
-		case 0: 
-			ThongKeView p = new ThongKeView();
-			p.setPreferredSize(new Dimension(1160, 730));
-			this.removeAll();
-			this.add(p);
-			this.repaint();
-			this.validate();
-			break;
-		
-		case 1: 
-			ThongKeView1 p1 = new ThongKeView1();
-			p1.setPreferredSize(new Dimension(1160, 730));
-			this.removeAll();
-			this.add(p1);
-			this.repaint();
-			this.validate();
-			
-		
-		break;
+			case 0:
+				ThongKeView p = new ThongKeView();
+				p.setPreferredSize(new Dimension(1160, 730));
+				this.removeAll();
+				this.add(p);
+				this.repaint();
+				this.validate();
+				break;
+
+			case 1:
+				ThongKeView1 p1 = new ThongKeView1();
+				p1.setPreferredSize(new Dimension(1160, 730));
+				this.removeAll();
+				this.add(p1);
+				this.repaint();
+				this.validate();
+
+				break;
 		}
 	}
 

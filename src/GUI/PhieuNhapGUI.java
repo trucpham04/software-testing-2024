@@ -108,9 +108,9 @@ public class PhieuNhapGUI extends JPanel {
             model.addRow(new Object[] {
                     pn.get_maPNhap(),
                     pn.getNgayNhap(),
-                    pn.get_NhaXuatBan().getMaNXB(),
+                    // pn.get_NhaXuatBan().getMaNXB(),
                     pn.get_NhaXuatBan().getTenNXB(),
-                    pn.get_NhanVien().getMaNV(),
+                    // pn.get_NhanVien().getMaNV(),
                     pn.get_NhanVien().getHoTen(),
                     pn.getTongTien()
 
@@ -400,7 +400,9 @@ public class PhieuNhapGUI extends JPanel {
         detail.addMouseListener(mouseListener);
 
         // Table
-        String[] columnNames = { "Mã PN", "Ng_Nhập", "Mã NXB", "Tên NXB", "Mã NV", "Tên NV", "Tổng Tiền" };
+        // String[] columnNames = { "Mã PN", "Ng_Nhập", "Mã NXB", "Tên NXB", "Mã NV",
+        // "Tên NV", "Tổng Tiền" };
+        String[] columnNames = { "Mã PN", "Ng_Nhập", "Tên NXB", "Tên NV", "Tổng Tiền" };
         model = new DefaultTableModel(columnNames, 0);
         ThemDataVaoJTablePhieuNhap(model, phieunhapbus.get_ListPhieuNhap());
         table_pnhap = new JTable(model);
@@ -410,8 +412,8 @@ public class PhieuNhapGUI extends JPanel {
         columnModel.getColumn(2).setPreferredWidth(100);
         columnModel.getColumn(3).setPreferredWidth(200);
         columnModel.getColumn(4).setPreferredWidth(100);
-        columnModel.getColumn(5).setPreferredWidth(200);
-        columnModel.getColumn(6).setPreferredWidth(100);// Trạng Thái
+        // columnModel.getColumn(5).setPreferredWidth(200);
+        // columnModel.getColumn(6).setPreferredWidth(100);// Trạng Thái
         table_pnhap.setDefaultEditor(Object.class, null);
 
         table_pnhap.setFocusable(false);

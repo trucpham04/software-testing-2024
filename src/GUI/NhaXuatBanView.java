@@ -365,14 +365,16 @@ public class NhaXuatBanView extends JPanel {
 		panel_nav.add(import_excel);
 		panel_nav.add(excel);
 
-		String[] columnNames = { "Mã NXB ", "Tên NXB", "Trạng Thái" };
+		// String[] columnNames = { "Mã NXB ", "Tên NXB", "Trạng Thái" };
+
+		String[] columnNames = { "Mã NXB ", "Tên NXB" };
 		model = new DefaultTableModel(columnNames, 0);
 		ThemDataVaoJTable(model, nhaxuatbanbus.getList_NhaXuatBan());
 		table = new JTable(model);
 		TableColumnModel columnModel = table.getColumnModel();
-		columnModel.getColumn(0).setPreferredWidth(200); // Mã
-		columnModel.getColumn(1).setPreferredWidth(500); // Tên
-		columnModel.getColumn(2).setPreferredWidth(200); // Phái
+		columnModel.getColumn(0).setPreferredWidth(200);
+		columnModel.getColumn(1).setPreferredWidth(500);
+		// columnModel.getColumn(2).setPreferredWidth(200);
 		table.setDefaultEditor(Object.class, null);
 
 		table.setFocusable(false);

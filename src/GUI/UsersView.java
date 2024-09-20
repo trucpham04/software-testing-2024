@@ -132,6 +132,7 @@ public class UsersView extends JPanel {
 
 		}
 	}
+
 	public void TimTheoTen() {
 		// Tìm kiếm theo id
 		String userInput = txt_Search.getText();
@@ -152,6 +153,7 @@ public class UsersView extends JPanel {
 
 		}
 	}
+
 	// Kiểm tra xem chuỗi nhập vào có phải là mã tác giả hay không
 	public boolean KiemTraMa(String input) {
 		// Kiểm tra xem chuỗi có chứa 4 chữ số và không chứa ký tự không phải số không
@@ -285,9 +287,9 @@ public class UsersView extends JPanel {
 			data = new Vector();
 			data.add(n.getManv());
 			data.add(n.getUsername());
-			data.add(n.getPassword());
+			// data.add(n.getPassword());
 			data.add(n.getMacv());
-			data.add(n.getTrangthai());
+			// data.add(n.getTrangthai());
 			tblModel.addRow(data);
 		}
 		table.setModel(tblModel);
@@ -316,7 +318,7 @@ public class UsersView extends JPanel {
 		panel_Title.setPreferredSize(new Dimension(1160, 60));
 		panel_Title.add(label_Title);
 
-		String[] combobox_item = { "Tìm Kiếm Theo ID", "Tìm Kiếm Theo Tên",};
+		String[] combobox_item = { "Tìm Kiếm Theo ID", "Tìm Kiếm Theo Tên", };
 		combobox = new JComboBox(combobox_item);
 		combobox.setPreferredSize(new Dimension(260, 40));
 		combobox.setFont(new Font("Arial", BOLD, 15));
@@ -400,7 +402,8 @@ public class UsersView extends JPanel {
 		edit.setFont(new Font("Arial", BOLD, 15));
 		edit.setPreferredSize(new Dimension(150, 60));
 
-		ImageIcon iconprint = new ImageIcon(getClass().getResource("/img/Dakirby309-Simply-Styled-Microsoft-Excel-2013.256.png"));
+		ImageIcon iconprint = new ImageIcon(
+				getClass().getResource("/img/Dakirby309-Simply-Styled-Microsoft-Excel-2013.256.png"));
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImageprint = iconprint.getImage();
 		// Thay đổi kích thước của hình ảnh
@@ -431,18 +434,20 @@ public class UsersView extends JPanel {
 		panel_nav.add(import_excel);
 		panel_nav.add(excel);
 
-		String[] columnNames = { "Mã Tài Khoản", "Tên Đăng Nhập", "Mật Khẩu", "Mã Quyền", "Trạng Thái" };
+		// String[] columnNames = { "Mã Tài Khoản", "Tên Đăng Nhập", "Mật Khẩu", "Mã
+		// Quyền", "Trạng Thái" };
+		String[] columnNames = { "Mã Tài Khoản", "Tên Đăng Nhập", "Mã Quyền" };
 		model = new DefaultTableModel(columnNames, 0);
 
 		table = new JTable(model);
 		listSP();
 		table.setDefaultEditor(Object.class, null);
 		TableColumnModel columnModel = table.getColumnModel();
-		columnModel.getColumn(0).setPreferredWidth(100); // Mã
-		columnModel.getColumn(1).setPreferredWidth(200); // Tên
-		columnModel.getColumn(2).setPreferredWidth(200); // Phái
-		columnModel.getColumn(3).setPreferredWidth(200);
-		columnModel.getColumn(4).setPreferredWidth(60);
+		columnModel.getColumn(0).setPreferredWidth(100);
+		columnModel.getColumn(1).setPreferredWidth(200);
+		columnModel.getColumn(2).setPreferredWidth(200);
+		// columnModel.getColumn(3).setPreferredWidth(200);
+		// columnModel.getColumn(4).setPreferredWidth(60);
 		((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -450,8 +455,8 @@ public class UsersView extends JPanel {
 		table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
 		table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
 		table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
-		table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
-		table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
+		// table.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+		// table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		table.setFocusable(false);
@@ -553,7 +558,7 @@ public class UsersView extends JPanel {
 		panel_main_form.add(panel_form, BorderLayout.CENTER);
 		panel_main_form.add(panel_button, BorderLayout.SOUTH);
 		panel_main_form.setBorder(new LineBorder(Color.PINK, 4, true));
-		this.setLayout(new FlowLayout(0,0,0));
+		this.setLayout(new FlowLayout(0, 0, 0));
 		this.setPreferredSize(new Dimension(1160, 730));
 		this.setBackground(Color.WHITE);
 		this.add(panel_Title);
@@ -593,12 +598,12 @@ public class UsersView extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				int selectedIndex = combobox.getSelectedIndex();
 				switch (selectedIndex) {
-				case 0:
-					TimTheoID();
-					break;
-				case 1:
-					TimTheoTen();
-					break;
+					case 0:
+						TimTheoID();
+						break;
+					case 1:
+						TimTheoTen();
+						break;
 				}
 			}
 

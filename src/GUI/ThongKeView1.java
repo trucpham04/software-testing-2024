@@ -189,7 +189,7 @@ public class ThongKeView1 extends JPanel implements ActionListener {
 		delete.setFont(new Font("Arial", BOLD, 15));
 		delete.setPreferredSize(new Dimension(150, 60));
 
-		ImageIcon icondetail = new ImageIcon(getClass().getResource("/img/Eye-icon.png"));
+		ImageIcon icondetail = new ImageIcon("../img/Eye-icon.png");
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImagedetail = icondetail.getImage();
 		// Thay đổi kích thước của hình ảnh
@@ -404,7 +404,7 @@ public class ThongKeView1 extends JPanel implements ActionListener {
 		panel_date2.add(label_year);
 		panel_date2.add(year);
 
-		ImageIcon icontk = new ImageIcon(getClass().getResource("/img/Chart-Business-icon.png"));
+		ImageIcon icontk = new ImageIcon("../img/Chart-Business-icon.png");
 		// Lấy hình ảnh từ ImageIcon
 		Image originalImagetk = icontk.getImage();
 		// Thay đổi kích thước của hình ảnh
