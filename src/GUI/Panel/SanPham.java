@@ -52,8 +52,9 @@ public final class SanPham extends JPanel implements ActionListener {
         tableSanPham = new JTable();
         scrollTableSanPham = new JScrollPane();
         tblModel = new DefaultTableModel();
-        // String[] header = new String[] { "Mã SP", "Tên sản phẩm", "Số lượng tồn", "Thương hiệu", "Hệ điều hành",
-        //         "Kích thước màn", "Chip xử lý", "Dung lượng pin", "Xuất xứ", "Khu vực kho" };
+        // String[] header = new String[] { "Mã SP", "Tên sản phẩm", "Số lượng tồn",
+        // "Thương hiệu", "Hệ điều hành",
+        // "Kích thước màn", "Chip xử lý", "Dung lượng pin", "Xuất xứ", "Khu vực kho" };
         String[] header = new String[] { "Mã SP", "Tên sản phẩm", "Số lượng tồn", "Thương hiệu", "Hệ điều hành",
                 "Kích thước màn", "Chip xử lý", "Dung lượng pin", "Xuất xứ" };
         tblModel.setColumnIdentifiers(header);
@@ -156,6 +157,9 @@ public final class SanPham extends JPanel implements ActionListener {
         } else if (e.getSource() == mainFunction.btn.get("delete")) {
             int index = getRowSelected();
             if (listSP.get(index).getSoluongton() == 0) {
+                JOptionPane.showMessageDialog(null, "Số lượng tồn cần bằng 0!",
+                        "Không thể xóa sản phẩm", JOptionPane.WARNING_MESSAGE);
+            } else {
                 if (index != -1) {
                     int input = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa Sản phẩm :)!",
                             "Xóa sản phẩm", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
@@ -166,9 +170,6 @@ public final class SanPham extends JPanel implements ActionListener {
 
                     }
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "Số lượng tồn cần bằng 0!",
-                        "Không thể xóa sản phẩm", JOptionPane.WARNING_MESSAGE);
             }
         } else if (e.getSource() == mainFunction.btn.get("detail")) {
             int index = getRowSelected();
