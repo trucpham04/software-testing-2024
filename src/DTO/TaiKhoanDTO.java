@@ -18,9 +18,9 @@ public class TaiKhoanDTO {
     private int trangthai;
 
     public TaiKhoanDTO() {
-        
+
     }
-    
+
     public TaiKhoanDTO(int manv, String username, String matkhau, int manhomquyen, int trangthai) {
         this.manv = manv;
         this.username = username;
@@ -109,7 +109,8 @@ public class TaiKhoanDTO {
 
     @Override
     public String toString() {
-        return "AccountDTO{" + "manv=" + manv + ", username=" + username + ", matkhau=" + matkhau + ", manhomquyen=" + manhomquyen + ", trangthai=" + trangthai + '}';
+        return "AccountDTO{" + "manv=" + manv + ", username=" + username + ", matkhau=" + matkhau + ", manhomquyen="
+                + manhomquyen + ", trangthai=" + trangthai + '}';
     }
-    
+
 }
