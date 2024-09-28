@@ -332,8 +332,8 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         btnDelete.setEnabled(false);
         content_btn.add(btnAddSp);
         // content_btn.add(btnImport);
-        // content_btn.add(btnEditSP);
-        // content_btn.add(btnDelete);
+        content_btn.add(btnEditSP);
+        content_btn.add(btnDelete);
 
         left_top.add(content_top, BorderLayout.CENTER);
 

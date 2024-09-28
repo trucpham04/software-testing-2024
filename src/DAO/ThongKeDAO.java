@@ -248,7 +248,7 @@ public class ThongKeDAO {
                 int mancc = rs.getInt("manhacungcap");
                 String tenncc = rs.getString("tennhacungcap");
                 int soluong = rs.getInt("soluong");
-                long tongtien = rs.getInt("total");
+                long tongtien = rs.getLong("total");
                 ThongKeNhaCungCapDTO x = new ThongKeNhaCungCapDTO(mancc, tenncc, soluong, tongtien);
                 result.add(x);
             }

@@ -346,8 +346,8 @@ public final class TaoPhieuXuat extends JPanel {
         btnImport = new ButtonCustom("Nhập Excel", "excel", 14);
         content_btn.add(btnAddSp);
         // content_btn.add(btnImport);
-        // content_btn.add(btnEditSP);
-        // content_btn.add(btnDelete);
+        content_btn.add(btnEditSP);
+        content_btn.add(btnDelete);
 
         btnAddSp.addActionListener((ActionEvent e) -> {
             if (checkInfo()) {
