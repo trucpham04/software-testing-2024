@@ -513,6 +513,15 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
                         JOptionPane.WARNING_MESSAGE);
                 return false;
             }
+            if (Validation.isEmpty(txtSoLuongImei.getText()) || !Validation.isNumber(txtSoLuongImei.getText())) {
+                JOptionPane.showMessageDialog(this, "Số lượng không được để rỗng và phải là số!", "Cảnh báo !",
+                        JOptionPane.WARNING_MESSAGE);
+                return false;
+            } else if (Integer.parseInt(txtSoLuongImei.getText()) > 1000) {
+                JOptionPane.showMessageDialog(this, "Số lượng tối đa là 1000.", "Cảnh báo !",
+                        JOptionPane.WARNING_MESSAGE);
+                return false;
+            }
 
         } else if (phuongthuc == 1) {
             if (Validation.isEmpty(textAreaImei.getText())) {
