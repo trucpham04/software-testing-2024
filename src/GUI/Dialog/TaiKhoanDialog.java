@@ -78,7 +78,7 @@ public class TaiKhoanDialog extends JDialog {
         username = new InputForm("Tên đăng nhập");
         password = new InputForm("Mật khẩu", "password");
         maNhomQuyen = new SelectForm("Nhóm quyền", getNhomQuyen());
-        trangthai = new SelectForm("Trạng thái", new String[]{"Ngưng hoạt động", "Hoạt động"});
+        trangthai = new SelectForm("Trạng thái", new String[] { "Ngưng hoạt động", "Hoạt động" });
         pnmain.add(username);
         pnmain.add(password);
         pnmain.add(maNhomQuyen);
@@ -112,7 +112,8 @@ public class TaiKhoanDialog extends JDialog {
                         taiKhoan.loadTable(taiKhoan.taiKhoanBus.getTaiKhoanAll());
                         dispose();
                     } else {
-                        JOptionPane.showMessageDialog(null, "Tên tài khoản đã tồn tại. Vui lòng đổi tên khác!", "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Tên tài khoản đã tồn tại. Vui lòng đổi tên khác!",
+                                "Cảnh báo!", JOptionPane.WARNING_MESSAGE);
                         username.getFocusCycleRootAncestor();
                     }
 
@@ -122,9 +123,14 @@ public class TaiKhoanDialog extends JDialog {
         btnCapNhat.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!(username.getText().length() == 0)) {
-                    String tendangnhap = username.getText();
-                    String pass = BCrypt.hashpw(password.getPass(), BCrypt.gensalt(12));
+                String tendangnhap = username.getText();
+                String pass = password.getPass();
+                if (tendangnhap.length() == 0) {
+                    JOptionPane.showMessageDialog(null, "Tên đăng nhập không được để trống");
+                } else if (tendangnhap.length() < 6 || tendangnhap.length() > 20) {
+                    JOptionPane.showMessageDialog(null, "Tên đăng nhập phải có từ 6 đến 20 kí tự.");
+                } else {
+                    pass = BCrypt.hashpw(pass, BCrypt.gensalt(12));
                     int manhom = listNq.get(maNhomQuyen.getSelectedIndex()).getManhomquyen();
                     int tt = trangthai.getSelectedIndex();
                     TaiKhoanDTO tk = new TaiKhoanDTO(manv, tendangnhap, pass, manhom, tt);
@@ -132,8 +138,6 @@ public class TaiKhoanDialog extends JDialog {
                     taiKhoan.taiKhoanBus.updateAcc(taiKhoan.getRowSelected(), tk);
                     taiKhoan.loadTable(taiKhoan.taiKhoanBus.getTaiKhoanAll());
                     dispose();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Vui lòng không để trống tên");
                 }
             }
         });
@@ -155,7 +159,7 @@ public class TaiKhoanDialog extends JDialog {
             case "view" -> {
                 pnmain.remove(password);
                 username.setEditable(false);
-//                password.setEditable(false);
+                // password.setEditable(false);
                 maNhomQuyen.setDisable();
                 trangthai.setDisable();
                 this.setSize(new Dimension(500, 550));
@@ -181,14 +185,14 @@ public class TaiKhoanDialog extends JDialog {
         if (username.getText().length() == 0) {
             JOptionPane.showMessageDialog(this, "Vui lòng không để trống tên đăng nhập");
             return false;
-        } else if (username.getText().length() < 6) {
-            JOptionPane.showMessageDialog(this, "Tên đăng nhập ít nhất 6 kí tự");
+        } else if (username.getText().length() < 6 || username.getText().length() > 20) {
+            JOptionPane.showMessageDialog(this, "Tên đăng nhập phải từ 6 đến 20 kí tự");
             return false;
         } else if (password.getPass().length() == 0) {
             JOptionPane.showMessageDialog(this, "Vui lòng không để trống mật khẩu");
             return false;
-        } else if (password.getPass().length() < 6) {
-            JOptionPane.showMessageDialog(this, "Mật khẩu ít nhất 6 ký tự");
+        } else if (password.getPass().length() < 6 || password.getPass().length() > 20) {
+            JOptionPane.showMessageDialog(this, "Mật khẩu phải từ 6 đến 20 ký tự");
             return false;
         }
         return true;

@@ -351,11 +351,11 @@ public final class TaoPhieuXuat extends JPanel {
 
         btnAddSp.addActionListener((ActionEvent e) -> {
             if (checkInfo()) {
-                getInfo();
+                if (getInfo() != null){
                 Notification notification = new Notification(mainChinh, Notification.Type.SUCCESS, Notification.Location.TOP_CENTER, "Thêm sản phẩm thành công!");
                 notification.showNotification();
                 loadDataTableChiTietPhieu(chitietphieu);
-                actionbtn("update");
+                actionbtn("update");}
             }
         });
 
@@ -576,16 +576,15 @@ public final class TaoPhieuXuat extends JPanel {
     }
 
     public boolean checkInfo() {
-        boolean check = true;
         if (txtMaSp.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm");
-            check = false;
+            return false;
         } else if (textAreaImei.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn mã imei");
-            check = false;
+            return false;
         }
 
-        return check;
+        return true;
     }
 
     public ChiTietPhieuDTO getInfo() {
@@ -594,9 +593,21 @@ public final class TaoPhieuXuat extends JPanel {
         int dongia = Integer.parseInt(txtGiaXuat.getText());
         String[] arrimei = textAreaImei.getText().split("\n");
         int soLuong = getChiTietSp();
+        if (soLuong > 50) {
+            JOptionPane.showMessageDialog(null, "Số lượng không được vượt quá 50.");
+            return null; // Return null due to error
+        }
+        if (dongia < 1000) {
+            JOptionPane.showMessageDialog(null, "Giá tối thiểu là 1 ngàn đồng.");
+            return null; // Return null due to error
+        }
+        if (dongia > 100000000) {
+            JOptionPane.showMessageDialog(null, "Giá không được vượt quá 100 triệu đồng.");
+            return null; // Return null due to error
+        }
         ChiTietPhieuDTO ctpx = new ChiTietPhieuDTO(maphieu, mapb, soLuong, dongia);
         chitietphieu.add(ctpx);
-        return null;
+        return ctpx; // Return ctpx when successful
     }
 
     public int getChiTietSp() {
