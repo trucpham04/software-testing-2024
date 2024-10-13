@@ -489,8 +489,16 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
         if (Validation.isEmpty(txtMaSp.getText())) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm", "Chọn sản phẩm", JOptionPane.WARNING_MESSAGE);
             return false;
-        } else if (Validation.isEmail(txtDongia.getText())) {
+        } else if (Validation.isEmpty(txtDongia.getText())) {
             JOptionPane.showMessageDialog(this, "Giá nhập không được để rỗng !", "Cảnh báo !",
+                    JOptionPane.WARNING_MESSAGE);
+            return false;
+        } else if (Integer.parseInt(txtDongia.getText()) < 1000) {
+            JOptionPane.showMessageDialog(this, "Giá nhập tối thiểu là 1 ngàn đồng.", "Cảnh báo !",
+                    JOptionPane.WARNING_MESSAGE);
+            return false;
+        } else if (Integer.parseInt(txtDongia.getText()) > 100000000) {
+            JOptionPane.showMessageDialog(this, "Giá nhập tối đa là 100 triệu đồng.", "Cảnh báo !",
                     JOptionPane.WARNING_MESSAGE);
             return false;
         } else if (phuongthuc == 0) {
@@ -505,12 +513,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
                         JOptionPane.WARNING_MESSAGE);
                 return false;
             }
-            int soluong = Integer.parseInt(txtSoLuongImei.getText());
-            if (soluong > 50) {
-                JOptionPane.showMessageDialog(this, "Số lượng không được vượt quá 50!", "Cảnh báo !",
-                        JOptionPane.WARNING_MESSAGE);
-                return false;
-            }
+
         } else if (phuongthuc == 1) {
             if (Validation.isEmpty(textAreaImei.getText())) {
                 JOptionPane.showMessageDialog(this, "Số lượng không được để rỗng và phải là số!", "Cảnh báo !",
