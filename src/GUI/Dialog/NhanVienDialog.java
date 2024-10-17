@@ -265,8 +265,8 @@ public class NhanVienDialog extends JDialog {
                     "Cảnh báo !",
                     JOptionPane.WARNING_MESSAGE);
             return false;
-        } else if (jcBd.getDate() == null) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày sinh!");
+        } else if (jcBd.getDate() == null || jcBd.getDate().after(new Date())) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày sinh và phải nhỏ hơn ngày hiện tại!");
             return false;
         } else if (!male.isSelected() && !female.isSelected()) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn giới tính!");
