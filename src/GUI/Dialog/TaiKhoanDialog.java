@@ -125,9 +125,10 @@ public class TaiKhoanDialog extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 String tendangnhap = username.getText();
                 String pass = password.getPass();
-                if (tendangnhap.length() == 0) {
-                    JOptionPane.showMessageDialog(null, "Tên đăng nhập không được để trống");
-                } else if (tendangnhap.length() < 6 || tendangnhap.length() > 20) {
+                // if (tendangnhap.length() == 0) {
+                // JOptionPane.showMessageDialog(null, "Tên đăng nhập không được để trống");
+                // } else
+                if (tendangnhap.length() < 6 || tendangnhap.length() > 20) {
                     JOptionPane.showMessageDialog(null, "Tên đăng nhập phải có từ 6 đến 20 kí tự.");
                 } else {
                     pass = BCrypt.hashpw(pass, BCrypt.gensalt(12));

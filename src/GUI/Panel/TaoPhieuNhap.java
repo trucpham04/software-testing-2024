@@ -517,7 +517,7 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
                 JOptionPane.showMessageDialog(this, "Số lượng không được để rỗng và phải là số!", "Cảnh báo !",
                         JOptionPane.WARNING_MESSAGE);
                 return false;
-            } else if (Integer.parseInt(txtSoLuongImei.getText()) < 1 && Integer.parseInt(txtSoLuongImei.getText()) > 1000) {
+            } else if (Integer.parseInt(txtSoLuongImei.getText()) < 1 || Integer.parseInt(txtSoLuongImei.getText()) > 1000) {
                 JOptionPane.showMessageDialog(this, "Số lượng từ 1 - 1000.", "Cảnh báo !",
                         JOptionPane.WARNING_MESSAGE);
                 return false;

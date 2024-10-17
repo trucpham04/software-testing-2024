@@ -45,21 +45,21 @@ public class ListNhanVien extends JDialog implements MouseListener {
     private DefaultTableModel tblModel;
     private ArrayList<NhanVienDTO> listnv = NhanVienDAO.getInstance().selectAllNV();
     DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-    
-    public ListNhanVien(TaiKhoan taiKhoan, JFrame owner, String title, boolean modal){
+
+    public ListNhanVien(TaiKhoan taiKhoan, JFrame owner, String title, boolean modal) {
         super(owner, title, modal);
-        this.guiTaiKhoan=taiKhoan;
+        this.guiTaiKhoan = taiKhoan;
         init();
     }
 
-    public void init(){
-        this.setSize(new Dimension(850,600));
+    public void init() {
+        this.setSize(new Dimension(850, 600));
         this.setLayout(new BorderLayout());
         JPanel panelSearch = new JPanel(new BorderLayout());
-        panelSearch.setSize(new Dimension(0,150));
+        panelSearch.setSize(new Dimension(0, 150));
         panelSearch.setBorder(new EmptyBorder(20, 20, 20, 20));
         JLabel jLabelSearch = new JLabel("Tìm kiếm  ");
-        jLabelSearch.setSize(new Dimension(100,0));
+        jLabelSearch.setSize(new Dimension(100, 0));
         JTextField jTextFieldSearch = new JTextField();
         jTextFieldSearch.setFont(new Font(FlatRobotoFont.FAMILY, 0, 13));
         jTextFieldSearch.putClientProperty("JTextField.placeholderText", "Tìm kiếm nhân viên....");
@@ -72,26 +72,27 @@ public class ListNhanVien extends JDialog implements MouseListener {
             }
         });
         ButtonCustom buttonAdd = new ButtonCustom("Chọn nhân viên", "success", 14);
-        buttonAdd.addActionListener(new ActionListener(){
+        buttonAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(getRow()<0){
-                    int input = JOptionPane.showConfirmDialog(null, 
-                "Vui lòng chọn nhân viên!:)", "Thông báo", JOptionPane.DEFAULT_OPTION);
-                } else{
+                if (getRow() < 0) {
+                    int input = JOptionPane.showConfirmDialog(null,
+                            "Vui lòng chọn nhân viên!:)", "Thông báo", JOptionPane.DEFAULT_OPTION);
+                } else {
                     dispose();
-                    TaiKhoanDialog tkd = new TaiKhoanDialog(guiTaiKhoan, guiTaiKhoan.owner, "Thêm nhân viên", true, "create", listnv.get(getRow()).getManv());
+                    TaiKhoanDialog tkd = new TaiKhoanDialog(guiTaiKhoan, guiTaiKhoan.owner, "Thêm nhân viên", true,
+                            "create", listnv.get(getRow()).getManv());
                 }
             }
-            
+
         });
-        panelSearch.add(jLabelSearch,BorderLayout.WEST);
-        panelSearch.add(jTextFieldSearch,BorderLayout.CENTER);
-        panelSearch.add(buttonAdd,BorderLayout.EAST);
-        this.add(panelSearch,BorderLayout.NORTH);
+        panelSearch.add(jLabelSearch, BorderLayout.WEST);
+        panelSearch.add(jTextFieldSearch, BorderLayout.CENTER);
+        panelSearch.add(buttonAdd, BorderLayout.EAST);
+        this.add(panelSearch, BorderLayout.NORTH);
         JPanel jPanelTable = new JPanel();
         panelSearch.setBorder(new EmptyBorder(20, 20, 20, 20));
-        jPanelTable.setLayout(new GridLayout(1,1));
+        jPanelTable.setLayout(new GridLayout(1, 1));
         tableNhanVien = new JTable();
         tableNhanVien.setFocusable(false);
         scrollTableSanPham = new JScrollPane();
@@ -99,78 +100,83 @@ public class ListNhanVien extends JDialog implements MouseListener {
         tableNhanVien = new JTable();
         tableNhanVien.setDefaultEditor(Object.class, null);
         tableNhanVien.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{},
-                new String[]{}
-        ));
+                new Object[][] {},
+                new String[] {}));
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"MNV","Họ tên","Giới tính","Ngày Sinh","SDT","Email"};
+        String[] header = new String[] { "MNV", "Họ tên", "Giới tính", "Ngày Sinh", "SDT", "Email" };
         tblModel.setColumnIdentifiers(header);
         tableNhanVien.setDefaultRenderer(Object.class, centerRenderer);
         tableNhanVien.setFocusable(false);
         tableNhanVien.setModel(tblModel);
         scrollTableSanPham.setViewportView(tableNhanVien);
         jPanelTable.add(scrollTableSanPham);
-        this.add(jPanelTable,BorderLayout.CENTER);
+        this.add(jPanelTable, BorderLayout.CENTER);
         loadDataTalbe(listnv);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
-    
-    public int getRow(){
+
+    public int getRow() {
         return tableNhanVien.getSelectedRow();
     }
-    
+
     public void loadDataTalbe(ArrayList<DTO.NhanVienDTO> list) {
         listnv = list;
         tblModel.setRowCount(0);
         for (DTO.NhanVienDTO nhanVien : listnv) {
-            tblModel.addRow(new Object[]{
-                nhanVien.getManv(),nhanVien.getHoten(),nhanVien.getGioitinh()==1?"Nam":"Nữ",nhanVien.getNgaysinh(),nhanVien.getSdt(),nhanVien.getEmail()
+            tblModel.addRow(new Object[] {
+                    nhanVien.getManv(), nhanVien.getHoten(), nhanVien.getGioitinh() == 1 ? "Nam" : "Nữ",
+                    nhanVien.getNgaysinh(), nhanVien.getSdt(), nhanVien.getEmail()
             });
         }
     }
-    
+
     public ArrayList<NhanVienDTO> search(String text) {
-        if(text.length()>0){
+        if (text.length() > 0) {
             text = text.toLowerCase();
-        ArrayList<NhanVienDTO> result = new ArrayList<>();
-        System.out.println(text);
-        for(NhanVienDTO i : listnv) {
-           if(i.getHoten().toLowerCase().contains(text) || i.getEmail().toLowerCase().contains(text)
-                   || i.getSdt().toLowerCase().contains(text)){
-               result.add(i);
-           }
-        }
-        return result;
+            ArrayList<NhanVienDTO> result = new ArrayList<>();
+            System.out.println(text);
+            for (NhanVienDTO i : listnv) {
+                if (i.getHoten().toLowerCase().contains(text) || i.getEmail().toLowerCase().contains(text)
+                        || i.getSdt().toLowerCase().contains(text)) {
+                    result.add(i);
+                }
+            }
+            return result;
         } else {
             return NhanVienDAO.getInstance().selectAll();
         }
-        
+
     }
-    
+
     @Override
     public void mouseClicked(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
+                                                                       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
+                                                                       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
+                                                                       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
+                                                                       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
+                                                                       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
 }
