@@ -490,7 +490,9 @@ public final class TaoPhieuXuat extends JPanel {
             public void mousePressed(MouseEvent e) {
                 int index = tableSanPham.getSelectedRow();
                 if (index != -1) {
-                    setInfoSanPham(listSP.get(index));
+                    SanPhamBUS sanPhamBUS = new SanPhamBUS();
+                    SanPhamDTO sanPham = sanPhamBUS.getByMaSP((int) tableSanPham.getValueAt(index, 0));
+                    setInfoSanPham(sanPham);
                 }
                 if (!checkTonTai()) {
                     actionbtn("add");

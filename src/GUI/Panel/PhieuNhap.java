@@ -233,7 +233,7 @@ public final class PhieuNhap extends JPanel implements ActionListener, KeyListen
             int type = search.cbxChoose.getSelectedIndex();
             int mancc = cbxNhaCungCap.getSelectedIndex() == 0 ? 0 : nccBUS.getByIndex(cbxNhaCungCap.getSelectedIndex() - 1).getMancc();
             int manv = cbxNhanVien.getSelectedIndex() == 0 ? 0 : nvBUS.getByIndex(cbxNhanVien.getSelectedIndex() - 1).getManv();
-            String input = search.txtSearchForm.getText() != null ? search.txtSearchForm.getText() : "";
+            String input = search.txtSearchForm.getText() != null ? search.txtSearchForm.getText().toLowerCase().trim() : "";
             Date time_start = dateStart.getDate() != null ? dateStart.getDate() : new Date(0);
             Date time_end = dateEnd.getDate() != null ? dateEnd.getDate() : new Date(System.currentTimeMillis());
             String min_price = moneyMin.getText();
@@ -335,10 +335,12 @@ public final class PhieuNhap extends JPanel implements ActionListener, KeyListen
 
     @Override
     public void keyReleased(KeyEvent e) {
-        try {
-            Fillter();
-        } catch (ParseException ex) {
-            Logger.getLogger(PhieuNhap.class.getName()).log(Level.SEVERE, null, ex);
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            try {
+                Fillter();
+            } catch (ParseException ex) {
+                Logger.getLogger(PhieuNhap.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

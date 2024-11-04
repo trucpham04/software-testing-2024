@@ -40,7 +40,8 @@ public class PhieuNhapBUS {
         return this.listPhieuNhap;
     }
 
-    public ArrayList<ChiTietSanPhamDTO> convertHashMapToArray(HashMap<Integer, ArrayList<ChiTietSanPhamDTO>> chitietsanpham) {
+    public ArrayList<ChiTietSanPhamDTO> convertHashMapToArray(
+            HashMap<Integer, ArrayList<ChiTietSanPhamDTO>> chitietsanpham) {
         ArrayList<ChiTietSanPhamDTO> result = new ArrayList<>();
         for (ArrayList<ChiTietSanPhamDTO> ctsp : chitietsanpham.values()) {
             result.addAll(ctsp);
@@ -61,7 +62,8 @@ public class PhieuNhapBUS {
         return result;
     }
 
-    public boolean add(PhieuNhapDTO phieu, ArrayList<ChiTietPhieuNhapDTO> ctPhieu, HashMap<Integer, ArrayList<ChiTietSanPhamDTO>> chitietsanpham) {
+    public boolean add(PhieuNhapDTO phieu, ArrayList<ChiTietPhieuNhapDTO> ctPhieu,
+            HashMap<Integer, ArrayList<ChiTietSanPhamDTO>> chitietsanpham) {
         boolean check = phieunhapDAO.insert(phieu) != 0;
         if (check) {
             check = ctPhieuNhapDAO.insert(ctPhieu) != 0;
@@ -91,7 +93,8 @@ public class PhieuNhapBUS {
         return result;
     }
 
-    public ArrayList<PhieuNhapDTO> fillerPhieuNhap(int type, String input, int mancc, int manv, Date time_s, Date time_e, String price_minnn, String price_maxxx) {
+    public ArrayList<PhieuNhapDTO> fillerPhieuNhap(int type, String input, int mancc, int manv, Date time_s,
+            Date time_e, String price_minnn, String price_maxxx) {
         Long price_min = !price_minnn.equals("") ? Long.valueOf(price_minnn) : 0L;
         Long price_max = !price_maxxx.equals("") ? Long.valueOf(price_maxxx) : Long.MAX_VALUE;
         Timestamp time_start = new Timestamp(time_s.getTime());
@@ -102,7 +105,7 @@ public class PhieuNhapBUS {
         calendar.set(Calendar.MINUTE, 59);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-        
+
         Timestamp time_end = new Timestamp(calendar.getTimeInMillis());
         ArrayList<PhieuNhapDTO> result = new ArrayList<>();
         for (PhieuNhapDTO phieuNhap : getAllList()) {
@@ -133,7 +136,8 @@ public class PhieuNhapBUS {
             }
 
             if (match
-                    && (manv == 0 || phieuNhap.getManguoitao() == manv) && (mancc == 0 || phieuNhap.getManhacungcap() == mancc)
+                    && (manv == 0 || phieuNhap.getManguoitao() == manv)
+                    && (mancc == 0 || phieuNhap.getManhacungcap() == mancc)
                     && (phieuNhap.getThoigiantao().compareTo(time_start) >= 0)
                     && (phieuNhap.getThoigiantao().compareTo(time_end) <= 0)
                     && phieuNhap.getTongTien() >= price_min

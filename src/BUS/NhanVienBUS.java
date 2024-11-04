@@ -138,7 +138,7 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
                 exportExcel(listNv, header);
             }
         }
-        nv.loadDataTalbe(listNv);
+        nv.loadDataTalbe(NhanVienDAO.getInstance().selectAll());
     }
 
     @Override
@@ -365,8 +365,8 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
                     } else {
                         gt = 0;
                     }
-                    String sdt = excelRow.getCell(3).getStringCellValue();
                     Date ngaysinh = (Date) excelRow.getCell(2).getDateCellValue();
+                    String sdt = excelRow.getCell(3).getStringCellValue();
                     java.sql.Date birth = new java.sql.Date(ngaysinh.getTime());
                     String email = excelRow.getCell(4).getStringCellValue();
                     if (Validation.isEmpty(tennv) || Validation.isEmpty(email)
@@ -381,8 +381,8 @@ public class NhanVienBUS implements ActionListener, DocumentListener {
                         NhanVienDTO nvdto = new NhanVienDTO(id, tennv, gt, birth, sdt, 1, email);
                         NhanVienDAO.getInstance().insert(nvdto);
                     }
-                    JOptionPane.showMessageDialog(null, "Nhập thành công");
                 }
+                JOptionPane.showMessageDialog(null, "Nhập thành công");
 
             } catch (FileNotFoundException ex) {
                 System.out.println("Lỗi đọc file");

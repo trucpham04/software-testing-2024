@@ -41,6 +41,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellType;
 
 public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
 
@@ -69,7 +70,7 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
         tableTaiKhoan.setDefaultEditor(Object.class, null);
         scrollTableSanPham = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"MaNV", "Tên đăng nhập", "Nhóm quyền", "Trạng thái"};
+        String[] header = new String[] { "MaNV", "Tên đăng nhập", "Nhóm quyền", "Trạng thái" };
         tblModel.setColumnIdentifiers(header);
         tableTaiKhoan.setModel(tblModel);
         tableTaiKhoan.setFocusable(false);
@@ -84,7 +85,8 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
         this.setLayout(new BorderLayout(0, 0));
         this.setOpaque(true);
 
-        // pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4 chỉ để thêm contentCenter ở giữa mà contentCenter không bị dính sát vào các thành phần khác
+        // pnlBorder1, pnlBorder2, pnlBorder3, pnlBorder4 chỉ để thêm contentCenter ở
+        // giữa mà contentCenter không bị dính sát vào các thành phần khác
         pnlBorder1 = new JPanel();
         pnlBorder1.setPreferredSize(new Dimension(0, 10));
         pnlBorder1.setBackground(BackgroundColor);
@@ -111,21 +113,27 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
         contentCenter.setLayout(new BorderLayout(10, 10));
         this.add(contentCenter, BorderLayout.CENTER);
 
-        // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
+        // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm
+        // kiếm
         functionBar = new PanelBorderRadius();
         functionBar.setPreferredSize(new Dimension(0, 100));
         functionBar.setLayout(new GridLayout(1, 2, 50, 0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        String[] action = {"create", "update", "delete", "detail", "import", "export"};
+        String[] action = { "create", "update", "delete", "detail", "import", "export" };
         mainFunction = new MainFunction(m.user.getManhomquyen(), "taikhoan", action);
         for (String ac : action) {
             mainFunction.btn.get(ac).addActionListener(this);
         }
 
         functionBar.add(mainFunction);
-        search = new IntegratedSearch(new String[]{"Tất cả", "Mã nhân viên", "Username"});
+        search = new IntegratedSearch(new String[] { "Tất cả", "Mã nhân viên", "Username" });
         search.cbxChoose.addItemListener(this);
+        search.btnReset.addActionListener((ActionEvent e) -> {
+            search.txtSearchForm.setText("");
+            listTk = taiKhoanBus.getTaiKhoanAll();
+            loadTable(listTk);
+        });
         functionBar.add(search);
         search.txtSearchForm.addKeyListener(new KeyAdapter() {
             @Override
@@ -142,7 +150,7 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
         main = new PanelBorderRadius();
         BoxLayout boxly = new BoxLayout(main, BoxLayout.Y_AXIS);
         main.setLayout(boxly);
-//        main.setBorder(new EmptyBorder(20, 20, 20, 20));
+        // main.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentCenter.add(main, BorderLayout.CENTER);
 
         main.add(scrollTableSanPham);
@@ -161,8 +169,9 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
                     trangthaiString = "Ngưng hoạt động";
                 }
             }
-            tblModel.addRow(new Object[]{
-                taiKhoanDTO.getManv(), taiKhoanDTO.getUsername(), taiKhoanBus.getNhomQuyenDTO(taiKhoanDTO.getManhomquyen()).getTennhomquyen(), trangthaiString
+            tblModel.addRow(new Object[] {
+                    taiKhoanDTO.getManv(), taiKhoanDTO.getUsername(),
+                    taiKhoanBus.getNhomQuyenDTO(taiKhoanDTO.getManhomquyen()).getTennhomquyen(), trangthaiString
             });
         }
     }
@@ -191,7 +200,8 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
         } else if (e.getSource() == mainFunction.btn.get("update")) {
             int index = getRowSelected();
             if (index != -1) {
-                TaiKhoanDialog add = new TaiKhoanDialog(this, owner, "Cập nhật tài khoản", true, "update", listTk.get(index));
+                TaiKhoanDialog add = new TaiKhoanDialog(this, owner, "Cập nhật tài khoản", true, "update",
+                        listTk.get(index));
             }
         } else if (e.getSource() == mainFunction.btn.get("delete")) {
             int index = getRowSelected();
@@ -217,6 +227,7 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
             }
         } else if (e.getSource() == mainFunction.btn.get("import")) {
             importExcel();
+            loadTable(taiKhoanBus.getTaiKhoanAll());
         }
     }
 
@@ -239,10 +250,10 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
                 XSSFSheet excelSheet = excelJTableImport.getSheetAt(0);
                 for (int row = 1; row <= excelSheet.getLastRowNum(); row++) {
                     XSSFRow excelRow = excelSheet.getRow(row);
-                    Cell cell0=excelRow.getCell(0);
-                    int manv = (int)excelRow.getCell(0).getNumericCellValue();
+                    // Cell cell0 = excelRow.getCell(0);
+                    int manv = Integer.parseInt(excelRow.getCell(0).getStringCellValue());
                     String tendangnhap = excelRow.getCell(1).getStringCellValue();
-                    String matkhau = excelRow.getCell(2).getStringCellValue();
+                    String matkhau = excelRow.getCell(2).getCellType() == CellType.STRING ? excelRow.getCell(2).getStringCellValue() : String.valueOf(excelRow.getCell(2).getNumericCellValue());
                     String nhomquyen = excelRow.getCell(3).getStringCellValue();
                     int check1 = 0, check2 = 0, check3 = 0, check4 = 0;
                     if (Validation.isEmpty(String.valueOf(manv)) || Validation.isEmpty(tendangnhap)
@@ -283,7 +294,7 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
                     }
                     System.out.println(manv + ":" + tendangnhap + ":" + matkhau + ":" + manhomquyen);
                     System.out.println(check1 + " " + check2 + " " + check3 + " " + check4);
-                    if (check1 != 0 || check2 != 0 || check3 != 0 || check4 != 0) {
+                    if (check1 == 0 || check2 == 0 || check3 == 0 || check4 == 0) {
                         k += 1;
                     } else {
                         System.out.println(manv + ":" + tendangnhap + ":" + matkhau + ":" + manhomquyen);
@@ -294,11 +305,13 @@ public class TaiKhoan extends JPanel implements ActionListener, ItemListener {
                     }
                 }
             } catch (FileNotFoundException ex) {
-                System.out.println("Lỗi đọc file");
+                System.out.println(ex );
             } catch (IOException ex) {
-                System.out.println("Lỗi đọc file");
+                System.out.println(ex);
             }
-        }
+        } else
+            return;
+
         if (k != 0) {
             JOptionPane.showMessageDialog(this, "Những dữ liệu không chuẩn không được thêm vào");
         } else {

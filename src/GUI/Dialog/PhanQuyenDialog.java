@@ -31,6 +31,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -158,7 +159,20 @@ public final class PhanQuyenDialog extends JDialog implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnAddNhomQuyen) {
+
             ctQuyen = this.getListChiTietQuyen(NhomQuyenDAO.getInstance().getAutoIncrement());
+
+            String tenNhomQuyen = txtTennhomquyen.getText();
+            if (tenNhomQuyen.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Tên nhóm quyền không được trống", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if (ctQuyen.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 trong các quyền", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             nhomquyenBUS.add(txtTennhomquyen.getText(), ctQuyen);
             this.jpPhanQuyen.loadDataTalbe(nhomquyenBUS.getAll());
             dispose();

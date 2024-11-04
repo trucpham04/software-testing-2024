@@ -177,7 +177,9 @@ public final class TaoPhieuNhap extends JPanel implements ItemListener, ActionLi
                 int index = tableSanPham.getSelectedRow();
                 if (index != -1) {
                     resetForm();
-                    setInfoSanPham(listSP.get(index));
+                    SanPhamBUS sanPhamBUS = new SanPhamBUS();
+                    SanPhamDTO sanpham = sanPhamBUS.getByMaSP((int) tableSanPham.getValueAt(index, 0));
+                    setInfoSanPham(sanpham);
                     ChiTietPhieuNhapDTO ctp = checkTonTai();
                     if (ctp == null) {
                         actionbtn("add");

@@ -118,7 +118,7 @@ public class ThuongHieuDAO implements DAOinterface<ThuongHieuDTO> {
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
             ResultSet rs2 = pst.executeQuery();
             if (rs2.next()) {
-                result = rs2.getInt("max_id");
+                result = rs2.getInt("max_id") + 1;
             }
         } catch (SQLException ex) {
             Logger.getLogger(ThuongHieuDAO.class.getName()).log(Level.SEVERE, null, ex);

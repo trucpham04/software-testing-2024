@@ -94,13 +94,16 @@ public final class SanPham extends JPanel implements ActionListener {
         }
         functionBar.add(mainFunction);
 
-        search = new IntegratedSearch(new String[] { "Tất cả" });
+        search = new IntegratedSearch(new String[] { "Tất cả", "Mã SP", "Tên sản phẩm", "Số lượng tồn", "Thương hiệu",
+                "Hệ điều hành", "Kích thước màn", "Chip xử lý", "Dung lượng pin", "Xuất sứ" });
         search.txtSearchForm.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                String txt = search.txtSearchForm.getText();
-                listSP = spBUS.search(txt);
-                loadDataTalbe(listSP);
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    String txt = search.txtSearchForm.getText();
+                    listSP = spBUS.searchByType(search.cbxChoose.getSelectedItem().toString(), txt);
+                    loadDataTalbe(listSP);
+                }
             }
 
         });

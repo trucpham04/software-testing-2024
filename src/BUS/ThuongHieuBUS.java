@@ -95,7 +95,7 @@ public class ThuongHieuBUS {
         boolean check = true;
         int i = 0;
         while (i < this.listLH.size() && check == true) {
-            if (this.listLH.get(i).getTenthuonghieu().toLowerCase().contains(name.toLowerCase())) {
+            if (this.listLH.get(i).getTenthuonghieu().toLowerCase().equals(name.toLowerCase())) {
                 check = false;
             } else {
                 i++;

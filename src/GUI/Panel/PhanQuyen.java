@@ -41,8 +41,8 @@ public class PhanQuyen extends JPanel implements ActionListener {
 
     private void initComponent() {
         this.setBackground(BackgroundColor);
-        this.setLayout(new GridLayout(1,1));
-        this.setBorder(new EmptyBorder(10,10,10,10));
+        this.setLayout(new GridLayout(1, 1));
+        this.setBorder(new EmptyBorder(10, 10, 10, 10));
         this.setOpaque(true);
 
         contentCenter = new JPanel();
@@ -51,26 +51,30 @@ public class PhanQuyen extends JPanel implements ActionListener {
         contentCenter.setLayout(new BorderLayout(10, 20));
         this.add(contentCenter);
 
-        // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm kiếm
+        // functionBar là thanh bên trên chứa các nút chức năng như thêm xóa sửa, và tìm
+        // kiếm
         functionBar = new PanelBorderRadius();
         functionBar.setPreferredSize(new Dimension(0, 100));
         functionBar.setLayout(new GridLayout(1, 2, 50, 0));
         functionBar.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        String[] action = {"create", "update", "delete", "detail", "export"};
+        String[] action = { "create", "update", "delete", "detail", "export" };
         mainFunction = new MainFunction(m.user.getManhomquyen(), "nhomquyen", action);
         for (String ac : action) {
             mainFunction.btn.get(ac).addActionListener(this);
         }
         functionBar.add(mainFunction);
 
-        search = new IntegratedSearch(new String[]{"Tất cả"});
+        search = new IntegratedSearch(new String[] { "Tất cả" });
         search.txtSearchForm.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 ArrayList<NhomQuyenDTO> rs = nhomquyenBUS.search(search.txtSearchForm.getText());
                 loadDataTalbe(rs);
             }
+        });
+        search.btnReset.addActionListener((ActionEvent e) -> {
+            loadDataTalbe(nhomquyenBUS.getAll());
         });
         functionBar.add(search);
 
@@ -86,7 +90,7 @@ public class PhanQuyen extends JPanel implements ActionListener {
         tblNhomQuyen.setDefaultEditor(Object.class, null);
         scrollTable = new JScrollPane();
         tblModel = new DefaultTableModel();
-        String[] header = new String[]{"Mã nhóm quyền", "Tên nhóm quyền"};
+        String[] header = new String[] { "Mã nhóm quyền", "Tên nhóm quyền" };
         tblModel.setColumnIdentifiers(header);
         tblNhomQuyen.setModel(tblModel);
         scrollTable.setViewportView(tblNhomQuyen);
@@ -110,8 +114,8 @@ public class PhanQuyen extends JPanel implements ActionListener {
     public void loadDataTalbe(ArrayList<NhomQuyenDTO> result) {
         tblModel.setRowCount(0);
         for (NhomQuyenDTO ncc : result) {
-            tblModel.addRow(new Object[]{
-                ncc.getManhomquyen(), ncc.getTennhomquyen()
+            tblModel.addRow(new Object[] {
+                    ncc.getManhomquyen(), ncc.getTennhomquyen()
             });
         }
     }
@@ -119,23 +123,27 @@ public class PhanQuyen extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mainFunction.btn.get("create")) {
-            PhanQuyenDialog pq = new PhanQuyenDialog(nhomquyenBUS,this, owner, "Thêm nhóm quyền", true, "create");
+            PhanQuyenDialog pq = new PhanQuyenDialog(nhomquyenBUS, this, owner, "Thêm nhóm quyền", true, "create");
         } else if (e.getSource() == mainFunction.btn.get("update")) {
             int index = this.getRowSelected();
-            if(listnhomquyen.get(index).getManhomquyen() == 1) {
-                JOptionPane.showMessageDialog(this, "Không thể chỉnh sửa quyền của quản lý kho", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+            if (listnhomquyen.get(index).getManhomquyen() == 1) {
+                JOptionPane.showMessageDialog(this, "Không thể chỉnh sửa quyền của quản lý kho", "Cảnh báo",
+                        JOptionPane.WARNING_MESSAGE);
             } else if (index >= 0) {
-                PhanQuyenDialog nccDialog = new PhanQuyenDialog(nhomquyenBUS,this, owner, "Chỉnh sửa nhóm quyền", true, "update", listnhomquyen.get(index));
+                PhanQuyenDialog nccDialog = new PhanQuyenDialog(nhomquyenBUS, this, owner, "Chỉnh sửa nhóm quyền", true,
+                        "update", listnhomquyen.get(index));
             }
         } else if (e.getSource() == mainFunction.btn.get("detail")) {
             int index = this.getRowSelected();
             if (index >= 0) {
-                PhanQuyenDialog nccDialog = new PhanQuyenDialog(nhomquyenBUS,this, owner, "Chi tiết nhóm quyền", true, "view", listnhomquyen.get(index));
+                PhanQuyenDialog nccDialog = new PhanQuyenDialog(nhomquyenBUS, this, owner, "Chi tiết nhóm quyền", true,
+                        "view", listnhomquyen.get(index));
             }
         } else if (e.getSource() == mainFunction.btn.get("delete")) {
             int index = this.getRowSelected();
             if (index >= 0) {
-                int input = JOptionPane.showConfirmDialog(null,"Bạn có chắc chắn muốn xóa nhà cung cấp!", "Xóa nhà cung cấp",JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                int input = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa nhóm quyền!",
+                        "Xóa nhóm quyền", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (input == 0) {
                     nhomquyenBUS.delete(listnhomquyen.get(index));
                     loadDataTalbe(listnhomquyen);
@@ -147,8 +155,6 @@ public class PhanQuyen extends JPanel implements ActionListener {
             } catch (IOException ex) {
                 Logger.getLogger(PhanQuyen.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else if(e.getSource() == this.search.btnReset) {
-            loadDataTalbe(listnhomquyen);
         }
     }
 

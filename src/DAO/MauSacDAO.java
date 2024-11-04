@@ -134,19 +134,14 @@ public class MauSacDAO implements DAOinterface<MauSacDTO> {
         int result = -1;
         try {
             Connection con = (Connection) JDBCUtil.getConnection();
-            String sql = "SELECT `AUTO_INCREMENT` FROM  INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'quanlikhohang' AND   TABLE_NAME   = 'mausac'";
+            String sql = "SELECT MAX(mamau) + 1 FROM mausac";
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
-            ResultSet rs2 = pst.executeQuery(sql);
-            if (!rs2.isBeforeFirst()) {
-                System.out.println("No data");
-            } else {
-                while (rs2.next()) {
-                    result = rs2.getInt("AUTO_INCREMENT");
-
-                }
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                result = rs.getInt(1);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(KhuVucKhoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MauSacDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }

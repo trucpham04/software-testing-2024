@@ -65,10 +65,12 @@ public class ListNhanVien extends JDialog implements MouseListener {
         jTextFieldSearch.putClientProperty("JTextField.placeholderText", "Tìm kiếm nhân viên....");
         jTextFieldSearch.putClientProperty("JTextField.showClearButton", true);
         jTextFieldSearch.addKeyListener(new KeyAdapter() {
-            public void keyReleased(KeyEvent e) {
-                String txt = jTextFieldSearch.getText();
-                listnv = search(txt);
-                loadDataTalbe(listnv);
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    String txt = jTextFieldSearch.getText();
+                    listnv = search(txt);
+                    loadDataTalbe(listnv);
+                }
             }
         });
         ButtonCustom buttonAdd = new ButtonCustom("Chọn nhân viên", "success", 14);
@@ -133,18 +135,18 @@ public class ListNhanVien extends JDialog implements MouseListener {
 
     public ArrayList<NhanVienDTO> search(String text) {
         if (text.length() > 0) {
-            text = text.toLowerCase();
+            text = text.toLowerCase().trim();
             ArrayList<NhanVienDTO> result = new ArrayList<>();
-            System.out.println(text);
+            // System.out.println(text);
             for (NhanVienDTO i : listnv) {
-                if (i.getHoten().toLowerCase().contains(text) || i.getEmail().toLowerCase().contains(text)
+                if (String.valueOf(i.getManv()).contains(text) || i.getHoten().toLowerCase().contains(text) || i.getEmail().toLowerCase().contains(text)
                         || i.getSdt().toLowerCase().contains(text)) {
                     result.add(i);
                 }
             }
             return result;
         } else {
-            return NhanVienDAO.getInstance().selectAll();
+            return NhanVienDAO.getInstance().selectAllNV();
         }
 
     }

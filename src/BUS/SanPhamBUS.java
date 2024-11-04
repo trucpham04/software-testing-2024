@@ -1,6 +1,10 @@
 package BUS;
 
 import DAO.SanPhamDAO;
+import DAO.ThuongHieuDAO;
+import DAO.HeDieuHanhDAO;
+import DAO.XuatXuDAO;
+import DAO.KhuVucKhoDAO;
 import DTO.PhienBanSanPhamDTO;
 import DTO.SanPhamDTO;
 import java.util.ArrayList;
@@ -16,7 +20,7 @@ public class SanPhamBUS {
     }
 
     public ArrayList<SanPhamDTO> getAll() {
-        
+
         return this.listSP;
     }
 
@@ -89,9 +93,112 @@ public class SanPhamBUS {
         text = text.toLowerCase();
         ArrayList<SanPhamDTO> result = new ArrayList<>();
         for (SanPhamDTO i : this.listSP) {
-            if (Integer.toString(i.getMasp()).toLowerCase().contains(text) || i.getTensp().toLowerCase().contains(text)) {
+            if (Integer.toString(i.getMasp()).toLowerCase().contains(text)
+                    || i.getTensp().toLowerCase().contains(text)) {
                 result.add(i);
             }
+        }
+        return result;
+    }
+
+    public ArrayList<SanPhamDTO> searchByType(String type, String text) {
+        text = text.toLowerCase();
+        ArrayList<SanPhamDTO> result = new ArrayList<>();
+        switch (type) {
+            case "Mã SP":
+                for (SanPhamDTO i : this.listSP) {
+                    if (Integer.toString(i.getMasp()).toLowerCase().contains(text)) {
+                        result.add(i);
+                    }
+                }
+                break;
+            case "Tên sản phẩm":
+                for (SanPhamDTO i : this.listSP) {
+                    if (i.getTensp().toLowerCase().contains(text)) {
+                        result.add(i);
+                    }
+                }
+                break;
+            case "Số lượng tồn":
+                for (SanPhamDTO i : this.listSP) {
+                    if (Integer.toString(i.getSoluongton()).toLowerCase().contains(text)) {
+                        result.add(i);
+                    }
+                }
+                break;
+            case "Thương hiệu":
+                for (SanPhamDTO i : this.listSP) {
+                    if (ThuongHieuDAO.getInstance().selectById(i.getThuonghieu() + "").getTenthuonghieu().toLowerCase()
+                            .contains(text)) {
+                        result.add(i);
+                    }
+                }
+                break;
+            case "Hệ điều hành":
+                for (SanPhamDTO i : this.listSP) {
+                    if (HeDieuHanhDAO.getInstance().selectById(i.getHedieuhanh() + "").getTenhdh().toLowerCase()
+                            .contains(text)) {
+                        result.add(i);
+                    }
+                }
+                break;
+            case "Kích thước màn":
+                for (SanPhamDTO i : this.listSP) {
+                    if (String.valueOf(i.getKichthuocman()).toLowerCase().contains(text)) {
+                        result.add(i);
+                    }
+                }
+                break;
+            case "Chip xử lý":
+                for (SanPhamDTO i : this.listSP) {
+                    if (i.getChipxuly().toLowerCase().contains(text)) {
+                        result.add(i);
+                    }
+                }
+                break;
+            case "Dung lượng pin":
+                for (SanPhamDTO i : this.listSP) {
+                    if (Integer.toString(i.getDungluongpin()).toLowerCase().contains(text)) {
+                        result.add(i);
+                    }
+                }
+                break;
+            case "Xuất xứ":
+                for (SanPhamDTO i : this.listSP) {
+                    if (XuatXuDAO.getInstance().selectById(i.getXuatxu() + "").getTenxuatxu().toLowerCase()
+                            .contains(text)) {
+                        result.add(i);
+                    }
+                }
+                break;
+            case "Khu vực kho":
+                for (SanPhamDTO i : this.listSP) {
+                    if (KhuVucKhoDAO.getInstance().selectById(i.getKhuvuckho() + "").getTenkhuvuc().toLowerCase()
+                            .contains(text)) {
+                        result.add(i);
+                    }
+                }
+                break;
+            default:
+                for (SanPhamDTO i : this.listSP) {
+                    if (Integer.toString(i.getMasp()).toLowerCase().contains(text)
+                            || i.getTensp().toLowerCase().contains(text)
+                            || Integer.toString(i.getSoluongton()).toLowerCase().contains(text)
+                            || ThuongHieuDAO.getInstance().selectById(i.getThuonghieu() + "").getTenthuonghieu()
+                                    .toLowerCase().contains(text)
+                            || HeDieuHanhDAO.getInstance().selectById(i.getHedieuhanh() + "").getTenhdh().toLowerCase()
+                                    .contains(text)
+                            || String.valueOf(i.getKichthuocman()).toLowerCase().contains(text)
+                            || i.getChipxuly().toLowerCase().contains(text)
+                            || Integer.toString(i.getDungluongpin()).toLowerCase().contains(text)
+                            || XuatXuDAO.getInstance().selectById(i.getXuatxu() + "").getTenxuatxu().toLowerCase()
+                                    .contains(text)
+                            || KhuVucKhoDAO.getInstance().selectById(i.getKhuvuckho() + "").getTenkhuvuc().toLowerCase()
+                                    .contains(text)) {
+                        result.add(i);
+                    }
+                }
+                break;
         }
         return result;
     }
@@ -103,7 +210,7 @@ public class SanPhamBUS {
     public int getQuantity() {
         ArrayList<SanPhamDTO> result = new ArrayList<>();
         int n = 0;
-        for(SanPhamDTO i : this.listSP) {
+        for (SanPhamDTO i : this.listSP) {
             if (i.getSoluongton() != 0) {
                 n += i.getSoluongton();
             }

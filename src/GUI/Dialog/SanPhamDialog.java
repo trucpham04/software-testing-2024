@@ -486,7 +486,9 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
     public void eventAddSanPham() {
         SanPhamDTO sp = getInfo();
         sp.setHinhanh(addImage(sp.getHinhanh()));
-        if (jpSP.spBUS.add(sp, listch)) {
+        if (listch.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Cần ít nhất 1 cấu hình!");
+        } else if (jpSP.spBUS.add(sp, listch)) {
             JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công !");
             jpSP.loadDataTalbe(jpSP.listSP);
             dispose();
@@ -587,7 +589,22 @@ public final class SanPhamDialog extends JDialog implements ActionListener {
             check = false;
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin !");
         } else {
-            // Check number
+            if (!Validation.isNumber(dungluongpin.getText())) {
+                check = false;
+                JOptionPane.showMessageDialog(this, "Dung lượng pin phải là số !");
+            } else if (!Validation.isNumber(kichthuocman.getText())) {
+                check = false;
+                JOptionPane.showMessageDialog(this, "Kích thước màn hình phải là số !");
+            } else if (!Validation.isNumber(camerasau.getText())) {
+                check = false;
+                JOptionPane.showMessageDialog(this, "Camera sau phải là số !");
+            } else if (!Validation.isNumber(cameratruoc.getText())) {
+                check = false;
+                JOptionPane.showMessageDialog(this, "Camera trước phải là số !");
+            } else if (!Validation.isNumber(thoigianbaohanh.getText())) {
+                check = false;
+                JOptionPane.showMessageDialog(this, "Thời gian bảo hành phải là số !");
+            }
         }
         return check;
     }
