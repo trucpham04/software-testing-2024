@@ -187,7 +187,7 @@ public class NhanVienDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    if (ValidationInput()) {
+                    if (ValidationInput() && checkEmail(email.getText())) {
                         try {
                             int txt_gender = -1;
                             if (male.isSelected()) {
