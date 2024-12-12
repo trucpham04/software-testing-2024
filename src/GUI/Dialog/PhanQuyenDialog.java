@@ -159,10 +159,18 @@ public final class PhanQuyenDialog extends JDialog implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnAddNhomQuyen) {
+            String tenNhomQuyen = txtTennhomquyen.getText();
+            NhomQuyenDAO nhomquyenDAO = new NhomQuyenDAO();
+            ArrayList<NhomQuyenDTO> nhomquyenDTOs = nhomquyenDAO.selectAll();
+
+            boolean isDuplicate = nhomquyenDTOs.stream().anyMatch(nq -> nq.getTennhomquyen().equals(tenNhomQuyen));
+            if (isDuplicate) {
+                JOptionPane.showMessageDialog(this, "Tên nhóm quyền đã tồn tại", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
             ctQuyen = this.getListChiTietQuyen(NhomQuyenDAO.getInstance().getAutoIncrement());
-
-            String tenNhomQuyen = txtTennhomquyen.getText();
             if (tenNhomQuyen.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Tên nhóm quyền không được trống", "Lỗi",
                         JOptionPane.ERROR_MESSAGE);
@@ -178,7 +186,29 @@ public final class PhanQuyenDialog extends JDialog implements ActionListener {
             dispose();
         } else if (e.getSource() == btnUpdateNhomQuyen) {
             ctQuyen = this.getListChiTietQuyen(this.nhomquyenDTO.getManhomquyen());
-            NhomQuyenDTO nhomquyen = new NhomQuyenDTO(this.nhomquyenDTO.getManhomquyen(), txtTennhomquyen.getText());
+
+            String tenNhomQuyen = txtTennhomquyen.getText();
+            NhomQuyenDAO nhomquyenDAO = new NhomQuyenDAO();
+            ArrayList<NhomQuyenDTO> nhomquyenDTOs = nhomquyenDAO.selectAll();
+
+            boolean isDuplicate = nhomquyenDTOs.stream().anyMatch(nq -> nq.getTennhomquyen().equals(tenNhomQuyen));
+            if (isDuplicate) {
+                JOptionPane.showMessageDialog(this, "Tên nhóm quyền đã tồn tại", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (tenNhomQuyen.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Tên nhóm quyền không được trống", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            } else if (ctQuyen.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 trong các quyền", "Lỗi",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            NhomQuyenDTO nhomquyen = new NhomQuyenDTO(this.nhomquyenDTO.getManhomquyen(), tenNhomQuyen);
             nhomquyenBUS.update(nhomquyen, ctQuyen, index);
             this.jpPhanQuyen.loadDataTalbe(nhomquyenBUS.getAll());
             dispose();
